@@ -1,17 +1,19 @@
-import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
+import { ErrorRequestHandler } from 'express';
 import { Output } from '@hapi/boom';
 import { ZodError } from 'zod';
+
+import { MiddlewareErrorParams } from '../models';
 
 export interface BoomError extends ErrorRequestHandler {
   isBoom: boolean;
   output: Output;
 }
 
-export const boomErrorHandler = (
-  err: BoomError,
-  _: Request,
-  res: Response,
-  next: NextFunction
+export const boomErrorHandler: MiddlewareErrorParams<BoomError> = (
+  err,
+  _req,
+  res,
+  next
 ) => {
   if (err.isBoom) {
     const { output } = err;
@@ -22,11 +24,11 @@ export const boomErrorHandler = (
   return next(err);
 };
 
-export const zodErrorHandler = (
-  err: ZodError,
-  _req: Request,
-  res: Response,
-  next: NextFunction
+export const zodErrorHandler: MiddlewareErrorParams<ZodError> = (
+  err,
+  _req,
+  res,
+  next
 ) => {
   if (err instanceof ZodError) {
     return res.status(400).json(
@@ -40,11 +42,11 @@ export const zodErrorHandler = (
   return next(err);
 };
 
-export const errorHandler = (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction
+export const errorHandler: MiddlewareErrorParams<Error> = (
+  err,
+  _req,
+  res,
+  _next
 ) => {
   return res.status(500).json({ msg: err.message, stack: err.stack });
 };

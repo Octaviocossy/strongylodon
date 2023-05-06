@@ -1,16 +1,16 @@
 import boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
-import { NextFunction, Request, Response } from 'express';
 
-import { CreateUserReq, LoginUserReq, IToken } from '../models';
+import {
+  CreateUserReq,
+  LoginUserReq,
+  IToken,
+  MiddlewareParams,
+} from '../models';
 import { Prisma } from '../config';
 import { removeTokenDB, tokenValidation } from '../utilities';
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createUser: MiddlewareParams = async (req, res, next) => {
   try {
     const { email, password, username } = req.body as CreateUserReq;
 
@@ -39,11 +39,7 @@ export const createUser = async (
   }
 };
 
-export const loginUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const loginUser: MiddlewareParams = async (req, res, next) => {
   try {
     const { username, password } = req.body as LoginUserReq;
 
@@ -76,11 +72,7 @@ export const loginUser = async (
   }
 };
 
-export const renewToken = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const renewToken: MiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
@@ -97,11 +89,7 @@ export const renewToken = async (
   }
 };
 
-export const logoutUser = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const logoutUser: MiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 

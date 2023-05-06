@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
 import jwt, { Secret } from 'jsonwebtoken';
 import boom from '@hapi/boom';
 
-export const auth = (req: Request, res: Response, next: NextFunction) => {
+import { MiddlewareParams } from '../models';
+
+export const auth: MiddlewareParams = (req, res, next) => {
   const { cookie } = req.headers;
 
   if (!cookie) return next(boom.unauthorized('Token is required'));
