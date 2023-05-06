@@ -139,3 +139,6 @@ db/
 
 # Prisma migrations
 prisma/migrations/
+
+# Vscode cfg
+.vscode/

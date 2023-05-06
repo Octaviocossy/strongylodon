@@ -1,9 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject } from 'zod';
+import { MiddlewareSchemaParams } from '../models';
 
-export const schemaValition =
-  (schema: AnyZodObject) =>
-  (req: Request, _res: Response, next: NextFunction) => {
+export const schemaValition: MiddlewareSchemaParams =
+  (schema) => (req, _res, next) => {
     try {
       schema.parse({
         body: req.body,
