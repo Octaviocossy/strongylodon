@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/register', schemaValition(RegisterUser), createUser);
 router.post('/login', schemaValition(LoginUser), loginUser);
-router.get('/renew', auth, renewToken);
+router.get('/renewSession', auth, renewToken);
 router.get('/logout', auth, logoutUser);
 
 export { router as AuthRouter };
