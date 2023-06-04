@@ -1,12 +1,14 @@
 {
-  "name": "api",
+  "name": "expenses-api",
   "version": "1.0.0",
   "description": "expenses app api",
   "main": "app/index.ts",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node-dev --exit-child app/index.ts"
+    "dev": "ts-node-dev --exit-child app/index.ts",
+    "migrate": "prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "author": "Octavio Cossy Torquati (ovct)",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.15.11",
+    "@types/validator": "^13.7.17",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.38.0",
@@ -30,17 +33,18 @@
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
+    "prisma": "^4.15.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "validator": "^13.9.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.12.0",
+    "@prisma/client": "^4.15.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "prisma": "^4.12.0",
     "zod": "^3.21.4"
   }
 }

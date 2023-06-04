@@ -1,14 +1,9 @@
 import boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
 
-import {
-  CreateUserReq,
-  LoginUserReq,
-  IToken,
-  MiddlewareParams,
-} from '../models';
+import { CreateUserReq, LoginUserReq, MiddlewareParams } from '../models';
 import { Prisma } from '../config';
-import { removeTokenDB, tokenValidation } from '../utilities';
+import { generateJWT } from '../utilities';
 
 export const createUser: MiddlewareParams = async (req, res, next) => {
   try {
@@ -55,13 +50,7 @@ export const loginUser: MiddlewareParams = async (req, res, next) => {
     if (!passwordCompare)
       return next(boom.badRequest('Incorrect username or password'));
 
-    const tokenValidationResult = (await tokenValidation(
-      findUser.id
-    )) as IToken;
-
-    if (!tokenValidationResult) return next(tokenValidationResult);
-
-    res.cookie('token', tokenValidationResult['token'], {
+    res.cookie('token', generateJWT({ id: findUser.id }), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });
@@ -91,10 +80,6 @@ export const renewToken: MiddlewareParams = async (_req, res, next) => {
 
 export const logoutUser: MiddlewareParams = async (_req, res, next) => {
   try {
-    const { id } = res.locals.authorized;
-
-    await removeTokenDB(id);
-
     res.clearCookie('token');
 
     return res.status(200).json({ msg: 'User logged out successfully' });

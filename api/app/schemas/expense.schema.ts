@@ -8,10 +8,8 @@ const properties = {
     .max(30, 'Title must be less than 30 character(s)'),
   description: z.string(),
   amount: z.number({ required_error: 'Amount is required' }),
-  date: z.string(),
-  expenseCategoryId: z.string({
-    required_error: 'Expense category is required',
-  }),
+  date: z.nullable(z.string()),
+  expenseCategoryId: z.nullable(z.string()),
 };
 
 export const CreateExpense = z.object({
@@ -25,7 +23,7 @@ export const CreateExpense = z.object({
 });
 
 export const UpdateExpense = z.object({
-  params: z.object({
+  query: z.object({
     id: properties.id,
   }),
   body: z.object({
@@ -38,7 +36,7 @@ export const UpdateExpense = z.object({
 });
 
 export const DeleteExpense = z.object({
-  params: z.object({
+  query: z.object({
     id: properties.id,
   }),
 });
