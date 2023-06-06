@@ -8,8 +8,8 @@ const properties = {
     .max(30, 'Title must be less than 30 character(s)'),
   description: z.string(),
   amount: z.number({ required_error: 'Amount is required' }),
-  date: z.nullable(z.string()),
-  expenseCategoryId: z.nullable(z.string()),
+  date: z.string().nullable(),
+  expenseCategoryId: z.string().array().nullable(),
 };
 
 export const CreateExpense = z.object({

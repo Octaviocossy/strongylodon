@@ -48,5 +48,7 @@ export const errorHandler: MiddlewareErrorParams<Error> = (
   res,
   _next
 ) => {
+  console.log(err);
+
   return res.status(500).json({ msg: err.message, stack: err.stack });
 };
