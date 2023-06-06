@@ -19,6 +19,7 @@ model User {
   updated_at        DateTime?
   Expenses          Expense[]
   CurrentStatistics CurrentStatistics[]
+  ExpenseCategory   ExpenseCategory[]
 }
 
 model Expense {
@@ -42,6 +43,8 @@ model ExpenseCategory {
   created_at  DateTime  @default(now())
   updated_at  DateTime?
   Expense     Expense[]
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      String?   @db.Uuid
 }
 
 model CurrentStatistics {

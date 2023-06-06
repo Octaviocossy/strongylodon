@@ -1,6 +1,9 @@
 import { Expense } from '@prisma/client';
 
-export type ExpenseReq = Omit<
-  Expense,
-  'created_at' | 'updated_at' | 'userId' | 'id'
->;
+export interface ExpenseReq {
+  title: Expense['title'];
+  amount: Expense['amount'];
+  description?: Expense['description'];
+  date: Expense['date'];
+  expenseCategoryId: string[];
+}
