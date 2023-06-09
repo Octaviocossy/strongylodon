@@ -1,8 +1,7 @@
 import boom from '@hapi/boom';
 import isUUID from 'validator/lib/isUUID';
 
-import { EResult, MiddlewareParams } from '../models';
-import { ExpenseReq } from '../models/expense.model';
+import { EResult, MiddlewareParams, IExpenseReq } from '../models';
 import { Prisma } from '../config';
 import { expenseCategoryValidation } from '../utilities';
 
@@ -16,7 +15,7 @@ export const getExpenses: MiddlewareParams = async (_req, res, next) => {
       },
     });
 
-    res.status(200).json({ expenses });
+    res.status(200).json(expenses);
   } catch (error) {
     next(error);
   }
@@ -25,12 +24,12 @@ export const getExpenses: MiddlewareParams = async (_req, res, next) => {
 export const createExpense: MiddlewareParams = async (req, res, next) => {
   try {
     const { id } = res.locals.authorized;
-    const expense = req.body as ExpenseReq;
+    const expense = req.body as IExpenseReq;
 
     // Check if the expense category ID's its valid
-    if (expense.expenseCategoryId) {
+    if (expense.categoriesId) {
       const { type, value } = await expenseCategoryValidation(
-        expense.expenseCategoryId,
+        expense.categoriesId,
         id
       );
 
@@ -41,7 +40,7 @@ export const createExpense: MiddlewareParams = async (req, res, next) => {
     await Prisma.expense.create({
       data: {
         ...expense,
-        expenseCategoryId: expense.expenseCategoryId?.join(','),
+        categoriesId: expense.categoriesId?.join(','),
         date: expense.date ? new Date(expense.date) : new Date(),
         userId: id,
       },
@@ -57,7 +56,7 @@ export const updateExpense: MiddlewareParams = async (req, res, next) => {
   try {
     const { id } = req.query;
     const { id: userId } = res.locals.authorized;
-    const expense = req.body as ExpenseReq;
+    const expense = req.body as IExpenseReq;
 
     // validate expense id
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
@@ -73,9 +72,9 @@ export const updateExpense: MiddlewareParams = async (req, res, next) => {
       return next(boom.unauthorized('Unauthorized'));
 
     // Check if the expense category ID's its valid
-    if (expense.expenseCategoryId) {
+    if (expense.categoriesId) {
       const { type, value } = await expenseCategoryValidation(
-        expense.expenseCategoryId,
+        expense.categoriesId,
         String(id)
       );
 
@@ -87,7 +86,7 @@ export const updateExpense: MiddlewareParams = async (req, res, next) => {
       where: { id: String(id) },
       data: {
         ...expense,
-        expenseCategoryId: expense.expenseCategoryId?.join(','),
+        categoriesId: expense.categoriesId?.join(','),
         updated_at: new Date(),
       },
     });

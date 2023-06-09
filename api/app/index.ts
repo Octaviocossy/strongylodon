@@ -2,7 +2,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
 
-import { Router } from './Routes';
+import { Router } from './routes';
 import { boomErrorHandler, errorHandler, zodErrorHandler } from './middlewares';
 
 const app = express();

@@ -1,7 +1,6 @@
 import express, { Express } from 'express';
 
-import { AuthRouter } from './auth.routes';
-import { ExpenseRouter } from './expense.routes';
+import { AuthRouter, ExpenseRouter, CategoryRouter } from '.';
 
 export const Router = (app: Express) => {
   const router = express.Router();
@@ -10,4 +9,5 @@ export const Router = (app: Express) => {
 
   router.use('/auth', AuthRouter);
   router.use('/expense', ExpenseRouter);
+  router.use('/category', CategoryRouter);
 };

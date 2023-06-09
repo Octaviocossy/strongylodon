@@ -9,7 +9,7 @@ const properties = {
   description: z.string(),
   amount: z.number({ required_error: 'Amount is required' }),
   date: z.string().nullable(),
-  expenseCategoryId: z.string().array().nullable(),
+  categoriesId: z.string().array().nullable(),
 };
 
 export const CreateExpense = z.object({
@@ -18,7 +18,7 @@ export const CreateExpense = z.object({
     description: properties.description,
     amount: properties.amount,
     date: properties.date,
-    expenseCategoryId: properties.expenseCategoryId,
+    categoriesId: properties.categoriesId,
   }),
 });
 
@@ -31,7 +31,7 @@ export const UpdateExpense = z.object({
     description: properties.description,
     amount: properties.amount,
     date: properties.date,
-    expenseCategoryId: properties.expenseCategoryId,
+    categoriesId: properties.categoriesId,
   }),
 });
 

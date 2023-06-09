@@ -1,9 +1,9 @@
 import { Expense } from '@prisma/client';
 
-export interface ExpenseReq {
+export interface IExpenseReq {
   title: Expense['title'];
   amount: Expense['amount'];
   description?: Expense['description'];
   date: Expense['date'];
-  expenseCategoryId: string[];
+  categoriesId: string[];
 }
