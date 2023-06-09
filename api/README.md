@@ -7,3 +7,19 @@
 | POST       | `/api/auth/login`            | Auth by credentials.        | ❌         | { "username": "", "password": "" }              |
 | GET        | `/api/auth/renew`            | Auth by JWT.                | ✔          | -                                               |
 | GET        | `/api/auth/logout`           | Logout account.             | ✔          | -                                               |
+
+### Expenses 💸
+| Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query 
+|------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|------
+| GET        | `/api/expense/get`         | Get all expenses of the logged user.         | ✔         |  - | -
+| POST       | `/api/expense/create`      | Create a new expense.        | ✔          | { "title": "", "description": "", "amount": 0, "date": null, "expenseCategoryId": null } | -
+| PUT        | `/api/expense/update`      | Update an existing expense.                | ✔          | { "title": "", "description": "", "amount": 0, "date": null, "expenseCategoryId": null } | id
+| DELETE     | `/api/expense/delete`      | Delete an expense.             | ✔          | -                                               | id
+
+### Category 📂
+| Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query 
+|------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|------
+| GET        | `/api/category/get`         | Get all categories of the logged user.         | ✔         |  - | -
+| POST       | `/api/category/create`      | Create a new category.        | ✔          | { "title": "" }| -
+| PUT        | `/api/category/update`      | Update an existing category.                | ✔          | { "title": "" } | id
+| DELETE     | `/api/category/delete`      | Delete a category.             | ✔          | -                                               | id
