@@ -16,7 +16,7 @@
 | PUT        | `/api/expense/update`      | Update an existing expense.                | ✔          | { "title": "", "description": "", "amount": 0, "date": null, "expenseCategoryId": null } | id
 | DELETE     | `/api/expense/delete`      | Delete an expense.             | ✔          | -                                               | id
 
-### Category 📂
+### Categories 📂
 | Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query 
 |------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|------
 | GET        | `/api/category/get`         | Get all categories of the logged user.         | ✔         |  - | -
