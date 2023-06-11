@@ -23,3 +23,9 @@
 | POST       | `/api/category/create`      | Create a new category.        | ✔          | { "title": "" }| -
 | PUT        | `/api/category/update`      | Update an existing category.                | ✔          | { "title": "" } | id
 | DELETE     | `/api/category/delete`      | Delete a category.             | ✔          | -                                               | id
+
+### Statistics 📊
+| Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query 
+|------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|------
+| GET        | `/api/statistic/get`         | Get statistics of the logged user.         | ✔         |  - | -
+| PUT        | `/api/statistic/set_amount`      | Set initial amount of cash for the statistics       | ✔          | { "initialAmount": "" }| id
