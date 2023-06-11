@@ -1,7 +1,8 @@
-name: myexpenses-api
+name: myexpenses
 
 services:
   postgres:
+    container_name: myexpenses-db
     image: postgres:15.2
     environment:
       - POSTGRES_DB=myexpenses
@@ -13,6 +14,7 @@ services:
       - ./db:/var/lib/postgresql/data
 
   pgadmin:
+    container_name: pgadmin
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@mail.com
