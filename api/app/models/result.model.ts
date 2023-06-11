@@ -1,14 +1,14 @@
-export interface Err {
+export interface IErr {
   type: 'error';
   value: Error;
 }
 
-export interface Success<T> {
+export interface ISuccess<T> {
   type: 'success';
   value: T;
 }
 
-export type Result<T> = Success<T> | Err;
+export type TResult<T> = ISuccess<T> | IErr;
 
 export enum EResult {
   ERROR = 'error',

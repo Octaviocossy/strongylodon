@@ -1,13 +1,13 @@
 import boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
 
-import { CreateUserReq, LoginUserReq, MiddlewareParams } from '../models';
+import { TCreateUserReq, TLoginUserReq, MiddlewareParams } from '../models';
 import { Prisma } from '../config';
 import { generateJWT } from '../utilities';
 
 export const createUser: MiddlewareParams = async (req, res, next) => {
   try {
-    const { email, password, username } = req.body as CreateUserReq;
+    const { email, password, username } = req.body as TCreateUserReq;
 
     const findUsername = await Prisma.user.findUnique({
       where: { username },
@@ -24,11 +24,19 @@ export const createUser: MiddlewareParams = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create user and statistic
     await Prisma.user.create({
-      data: { username, email, password: hashedPassword },
+      data: {
+        username,
+        email,
+        password: hashedPassword,
+        Statistics: {
+          create: { initialAmount: 0, currentAmount: 0, expensedAmount: 0 },
+        },
+      },
     });
 
-    return res.status(201).json({ msg: 'User created successfully' });
+    res.status(201).json({ msg: 'User created successfully' });
   } catch (error) {
     next(error);
   }
@@ -36,7 +44,7 @@ export const createUser: MiddlewareParams = async (req, res, next) => {
 
 export const loginUser: MiddlewareParams = async (req, res, next) => {
   try {
-    const { username, password } = req.body as LoginUserReq;
+    const { username, password } = req.body as TLoginUserReq;
 
     const findUser = await Prisma.user.findUnique({
       where: { username },

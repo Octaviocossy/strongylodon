@@ -47,6 +47,8 @@ export const createExpense: MiddlewareParams = async (req, res, next) => {
     });
 
     res.status(200).json({ message: 'Expense created' });
+
+    return next();
   } catch (error) {
     next(error);
   }
@@ -92,6 +94,8 @@ export const updateExpense: MiddlewareParams = async (req, res, next) => {
     });
 
     res.status(200).json({ message: 'Expense updated' });
+
+    return next();
   } catch (error) {
     next(error);
   }
@@ -118,6 +122,8 @@ export const deleteExpense: MiddlewareParams = async (req, res, next) => {
     await Prisma.expense.delete({ where: { id: String(id) } });
 
     res.status(200).json({ message: 'Expense deleted' });
+
+    return next();
   } catch (error) {
     next(error);
   }

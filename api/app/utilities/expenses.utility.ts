@@ -1,10 +1,10 @@
-import { Result, EResult } from '../models';
+import { TResult, EResult } from '../models';
 import { Prisma } from '../config';
 
 export const expenseCategoryValidation = async (
   categories: string[],
   userId: string
-): Promise<Result<null>> => {
+): Promise<TResult<null>> => {
   try {
     const notFound: string[] = [];
 
