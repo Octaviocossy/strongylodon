@@ -50,6 +50,11 @@ export const loginUser: MiddlewareParams = async (req, res, next) => {
     if (!passwordCompare)
       return next(boom.badRequest('Incorrect username or password'));
 
+    await Prisma.user.update({
+      where: { id: findUser.id },
+      data: { last_login_at: new Date() },
+    });
+
     res.cookie('token', generateJWT({ id: findUser.id }), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -68,6 +73,11 @@ export const renewToken: MiddlewareParams = async (_req, res, next) => {
     const findUser = await Prisma.user.findUnique({ where: { id } });
 
     if (!findUser) return next(boom.badRequest('User not found'));
+
+    await Prisma.user.update({
+      where: { id: findUser.id },
+      data: { last_login_at: new Date() },
+    });
 
     return res.status(200).json({
       ...findUser,
