@@ -11,6 +11,7 @@ export const copyStatisticsByUser: MiddlewareParams = async (
   try {
     const { id } = res.locals.authorized;
 
+    // Find user and statistics
     const data = await Prisma.user.findUnique({
       where: { id },
       include: { Statistics: true },
@@ -20,6 +21,7 @@ export const copyStatisticsByUser: MiddlewareParams = async (
 
     const statistic = data.Statistics[0];
 
+    // In case of the month is different, create a new historical and update the current statistic
     if (new Date(statistic.created_at).getMonth() !== new Date().getMonth()) {
       const createHistorical = Prisma.hStatistic.create({
         data: {
