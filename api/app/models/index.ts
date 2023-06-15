@@ -1,4 +1,3 @@
-export * from './authtoken.model';
 export * from './category.model';
 export * from './expense.model';
 export * from './middleware.model';
