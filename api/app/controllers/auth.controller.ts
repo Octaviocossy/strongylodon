@@ -68,7 +68,9 @@ export const loginUser: MiddlewareParams = async (req, res, next) => {
       secure: process.env.NODE_ENV === 'production',
     });
 
-    return res.status(200).json({ ...findUser, password: undefined });
+    res.status(200).json({ ...findUser, password: undefined });
+
+    next();
   } catch (error) {
     next(error);
   }
@@ -87,10 +89,12 @@ export const renewToken: MiddlewareParams = async (_req, res, next) => {
       data: { last_login_at: new Date() },
     });
 
-    return res.status(200).json({
+    res.status(200).json({
       ...findUser,
       password: undefined,
     });
+
+    next();
   } catch (error) {
     next(error);
   }
