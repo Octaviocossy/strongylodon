@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id            String      @id @default(uuid()) @db.Uuid
-  username      String      @unique @db.VarChar(30)
-  email         String      @unique @db.VarChar(80)
+  id            String       @id @default(uuid()) @db.Uuid
+  username      String       @unique @db.VarChar(30)
+  email         String       @unique @db.VarChar(80)
   password      String
-  created_at    DateTime    @default(now())
+  created_at    DateTime     @default(now())
   updated_at    DateTime?
   last_login_at DateTime?
   Expenses      Expense[]
   Statistics    Statistic[]
   Categories    Category[]
+  HStatistic    HStatistic[]
 }
 
 model Expense {
@@ -48,6 +49,16 @@ model Category {
 }
 
 model Statistic {
+  id             String   @id @default(uuid()) @db.Uuid
+  currentAmount  Float
+  expensedAmount Float
+  initialAmount  Float
+  created_at     DateTime @default(now())
+  userId         String?  @db.Uuid
+  User           User?    @relation(fields: [userId], references: [id])
+}
+
+model HStatistic {
   id             String   @id @default(uuid()) @db.Uuid
   currentAmount  Float
   expensedAmount Float
