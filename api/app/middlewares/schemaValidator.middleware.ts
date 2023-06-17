@@ -1,6 +1,6 @@
-import { MiddlewareSchemaParams } from '../models';
+import { TMiddlewareSchemaParams } from '../models';
 
-export const schemaValition: MiddlewareSchemaParams =
+export const schemaValition: TMiddlewareSchemaParams =
   (schema) => (req, _res, next) => {
     try {
       schema.parse({

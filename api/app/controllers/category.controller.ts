@@ -1,10 +1,10 @@
 import isUUID from 'validator/lib/isUUID';
 import boom from '@hapi/boom';
 
-import { ICategoryReq, MiddlewareParams } from '../models';
+import { ICategoryReq, TMiddlewareParams } from '../models';
 import { Prisma } from '../config';
 
-export const getCategories: MiddlewareParams = async (_req, res, next) => {
+export const getCategories: TMiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
@@ -21,7 +21,7 @@ export const getCategories: MiddlewareParams = async (_req, res, next) => {
   }
 };
 
-export const createCategory: MiddlewareParams = async (req, res, next) => {
+export const createCategory: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = res.locals.authorized;
     const { title } = req.body as ICategoryReq;
@@ -39,7 +39,7 @@ export const createCategory: MiddlewareParams = async (req, res, next) => {
   }
 };
 
-export const updateCategory: MiddlewareParams = async (req, res, next) => {
+export const updateCategory: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id: userId } = res.locals.authorized;
     const { title } = req.body as ICategoryReq;
@@ -79,7 +79,7 @@ export const updateCategory: MiddlewareParams = async (req, res, next) => {
   }
 };
 
-export const deleteCategory: MiddlewareParams = async (req, res, next) => {
+export const deleteCategory: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id: userId } = res.locals.authorized;
     const { id } = req.query;

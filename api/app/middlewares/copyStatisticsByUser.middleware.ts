@@ -1,9 +1,9 @@
 import boom from '@hapi/boom';
 
 import { Prisma } from '../config';
-import { MiddlewareParams } from '../models';
+import { TMiddlewareParams } from '../models';
 
-export const copyStatisticsByUser: MiddlewareParams = async (
+export const copyStatisticsByUser: TMiddlewareParams = async (
   _req,
   res,
   next

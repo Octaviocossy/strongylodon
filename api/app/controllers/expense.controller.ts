@@ -1,11 +1,11 @@
 import boom from '@hapi/boom';
 import isUUID from 'validator/lib/isUUID';
 
-import { EResult, MiddlewareParams, IExpenseReq } from '../models';
+import { EResult, TMiddlewareParams, IExpenseReq } from '../models';
 import { Prisma } from '../config';
 import { expenseCategoryValidation } from '../utilities';
 
-export const getExpenses: MiddlewareParams = async (_req, res, next) => {
+export const getExpenses: TMiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
@@ -21,7 +21,7 @@ export const getExpenses: MiddlewareParams = async (_req, res, next) => {
   }
 };
 
-export const createExpense: MiddlewareParams = async (req, res, next) => {
+export const createExpense: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = res.locals.authorized;
     const expense = req.body as IExpenseReq;
@@ -54,7 +54,7 @@ export const createExpense: MiddlewareParams = async (req, res, next) => {
   }
 };
 
-export const updateExpense: MiddlewareParams = async (req, res, next) => {
+export const updateExpense: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = req.query;
     const { id: userId } = res.locals.authorized;
@@ -101,7 +101,7 @@ export const updateExpense: MiddlewareParams = async (req, res, next) => {
   }
 };
 
-export const deleteExpense: MiddlewareParams = async (req, res, next) => {
+export const deleteExpense: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = req.query;
     const { id: userId } = res.locals.authorized;

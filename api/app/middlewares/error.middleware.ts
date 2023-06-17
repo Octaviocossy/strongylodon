@@ -2,14 +2,14 @@ import { ErrorRequestHandler } from 'express';
 import { Output } from '@hapi/boom';
 import { ZodError } from 'zod';
 
-import { MiddlewareErrorParams } from '../models';
+import { TMiddlewareErrorParams } from '../models';
 
 export interface BoomError extends ErrorRequestHandler {
   isBoom: boolean;
   output: Output;
 }
 
-export const boomErrorHandler: MiddlewareErrorParams<BoomError> = (
+export const boomErrorHandler: TMiddlewareErrorParams<BoomError> = (
   err,
   _req,
   res,
@@ -24,7 +24,7 @@ export const boomErrorHandler: MiddlewareErrorParams<BoomError> = (
   return next(err);
 };
 
-export const zodErrorHandler: MiddlewareErrorParams<ZodError> = (
+export const zodErrorHandler: TMiddlewareErrorParams<ZodError> = (
   err,
   _req,
   res,
@@ -42,7 +42,7 @@ export const zodErrorHandler: MiddlewareErrorParams<ZodError> = (
   return next(err);
 };
 
-export const errorHandler: MiddlewareErrorParams<Error> = (
+export const errorHandler: TMiddlewareErrorParams<Error> = (
   err,
   _req,
   res,

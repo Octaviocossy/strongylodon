@@ -2,10 +2,10 @@ import boom from '@hapi/boom';
 import isUUID from 'validator/lib/isUUID';
 
 import { Prisma } from '../config';
-import { MiddlewareParams } from '../models';
+import { TMiddlewareParams } from '../models';
 import { IStatisticReq } from '../models/statistic.model';
 
-export const getStatistics: MiddlewareParams = async (_req, res, next) => {
+export const getStatistics: TMiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
@@ -22,7 +22,7 @@ export const getStatistics: MiddlewareParams = async (_req, res, next) => {
   }
 };
 
-export const setInitialAmount: MiddlewareParams = async (req, res, next) => {
+export const setInitialAmount: TMiddlewareParams = async (req, res, next) => {
   try {
     const { initialAmount } = req.body as IStatisticReq;
     const { id: statisticId } = req.query;

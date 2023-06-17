@@ -1,9 +1,9 @@
 import boom from '@hapi/boom';
 
 import { Prisma } from '../config';
-import { MiddlewareParams } from '../models';
+import { TMiddlewareParams } from '../models';
 
-export const updateStatistic: MiddlewareParams = async (_req, res, next) => {
+export const updateStatistic: TMiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
