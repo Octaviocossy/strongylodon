@@ -1,1 +1,1 @@
-export { default as Secure } from './Secure.page';
+export { default as Dashboard } from './Dashboard.page';
