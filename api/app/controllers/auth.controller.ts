@@ -39,7 +39,7 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
       },
     });
 
-    res.status(201).json({ msg: 'User created successfully' });
+    return res.status(201).json({ msg: 'User created successfully' });
   } catch (error) {
     next(error);
   }
@@ -51,6 +51,7 @@ export const loginUser: TMiddlewareParams = async (req, res, next) => {
 
     const findUser = await Prisma.user.findUnique({
       where: { username },
+      include: { Statistics: true },
     });
 
     // check if user exists
@@ -75,20 +76,23 @@ export const loginUser: TMiddlewareParams = async (req, res, next) => {
       secure: process.env.NODE_ENV === 'production',
     });
 
-    res.status(200).json({ ...findUser, password: undefined });
+    req.user = findUser;
 
-    next();
+    return next();
   } catch (error) {
     next(error);
   }
 };
 
-export const renewToken: TMiddlewareParams = async (_req, res, next) => {
+export const renewToken: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
     // find user
-    const findUser = await Prisma.user.findUnique({ where: { id } });
+    const findUser = await Prisma.user.findUnique({
+      where: { id },
+      include: { Statistics: true },
+    });
 
     if (!findUser) return next(boom.badRequest('User not found'));
 
@@ -98,12 +102,9 @@ export const renewToken: TMiddlewareParams = async (_req, res, next) => {
       data: { last_login_at: new Date() },
     });
 
-    res.status(200).json({
-      ...findUser,
-      password: undefined,
-    });
+    req.user = findUser;
 
-    next();
+    return next();
   } catch (error) {
     next(error);
   }

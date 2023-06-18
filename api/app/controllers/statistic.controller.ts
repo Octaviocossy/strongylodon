@@ -52,7 +52,7 @@ export const setInitialAmount: TMiddlewareParams = async (req, res, next) => {
       data: { initialAmount },
     });
 
-    res.status(200).json({ message: 'Initial amount set' });
+    req.message = 'Initial amount set';
 
     next();
   } catch (error) {

@@ -4,22 +4,16 @@ import { Prisma } from '../config';
 import { TMiddlewareParams } from '../models';
 
 export const copyStatisticsByUser: TMiddlewareParams = async (
-  _req,
+  req,
   res,
   next
 ) => {
   try {
-    const { id } = res.locals.authorized;
+    const user = req.user;
 
-    // Find user and statistics
-    const data = await Prisma.user.findUnique({
-      where: { id },
-      include: { Statistics: true },
-    });
+    if (!user) return next(boom.badRequest('User not found'));
 
-    if (!data) return next(boom.badRequest('User not found'));
-
-    const statistic = data.Statistics[0];
+    const statistic = user.Statistics[0];
 
     // In case of the month is different, create a new historical and update the current statistic
     if (new Date(statistic.created_at).getMonth() !== new Date().getMonth()) {
@@ -43,6 +37,10 @@ export const copyStatisticsByUser: TMiddlewareParams = async (
 
       await Prisma.$transaction([createHistorical, updateCurrentStatistic]);
     }
+
+    return res
+      .status(200)
+      .json({ ...user, password: undefined, Statistics: undefined });
   } catch (error) {
     next(error);
   }
