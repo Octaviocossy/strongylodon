@@ -2,8 +2,8 @@ import boom from '@hapi/boom';
 import isUUID from 'validator/lib/isUUID';
 
 import { EResult, TMiddlewareParams, IExpenseReq } from '../models';
-import { Prisma } from '../config';
 import { expenseCategoryValidation } from '../utilities';
+import { Prisma } from '../config';
 
 export const getExpenses: TMiddlewareParams = async (_req, res, next) => {
   try {
@@ -46,7 +46,7 @@ export const createExpense: TMiddlewareParams = async (req, res, next) => {
       },
     });
 
-    res.status(200).json({ message: 'Expense created' });
+    req.message = 'Expense created';
 
     return next();
   } catch (error) {
@@ -93,7 +93,7 @@ export const updateExpense: TMiddlewareParams = async (req, res, next) => {
       },
     });
 
-    res.status(200).json({ message: 'Expense updated' });
+    req.message = 'Expense updated';
 
     return next();
   } catch (error) {
@@ -121,7 +121,7 @@ export const deleteExpense: TMiddlewareParams = async (req, res, next) => {
     // delete expense
     await Prisma.expense.delete({ where: { id: String(id) } });
 
-    res.status(200).json({ message: 'Expense deleted' });
+    req.message = 'Expense deleted';
 
     return next();
   } catch (error) {
