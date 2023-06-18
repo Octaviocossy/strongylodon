@@ -1,17 +1,26 @@
 import express from 'express';
 
 import { auth, schemaValition, updateStatistic } from '../middlewares';
-import { getStatistics, setInitialAmount } from '../controllers';
+import { getStatistics, editAmount, addAmount } from '../controllers';
 import { SetStatistic } from '../schemas/statistic.schema';
 
 const router = express.Router();
 
 router.get('/get', auth, getStatistics);
+
 router.put(
-  '/set_amount',
+  '/add_amount',
   auth,
   schemaValition(SetStatistic),
-  setInitialAmount,
+  addAmount,
+  updateStatistic
+);
+
+router.put(
+  '/edit_amount',
+  auth,
+  schemaValition(SetStatistic),
+  editAmount,
   updateStatistic
 );
 

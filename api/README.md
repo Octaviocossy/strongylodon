@@ -5,7 +5,7 @@
 |------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|-----
 | POST       | `/api/auth/register`         | Register new users.         | ❌         | { "username": "", "email": "", "password":"" }  | -
 | POST       | `/api/auth/login`            | Auth by credentials.        | ❌         | { "username": "", "password": "" }              | -
-| GET        | `/api/auth/renew`            | Auth by JWT.                | ✔          | -                                               | -
+| GET        | `/api/auth/renew_session`            | Auth by JWT.                | ✔          | -                                               | -
 | GET        | `/api/auth/logout`           | Logout account.             | ✔          | -                                               | -
 
 ### Expenses 💸
@@ -28,4 +28,5 @@
 | Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query 
 |------------|---------------------------------|-----------------------------|------------|-------------------------------------------------|------
 | GET        | `/api/statistic/get`         | Get statistics of the logged user.         | ✔         |  - | -
-| PUT        | `/api/statistic/set_amount`      | Set initial amount of cash for the statistics       | ✔          | { "initialAmount": "" }| id
+| PUT        | `/api/statistic/add_amount`      | Add new amount of cash.     | ✔          | { "amount": "" }| id
+| PUT        | `/api/statistic/edit_amount`      | Edit amount of cash.      | ✔          | { "amount": "" }| id

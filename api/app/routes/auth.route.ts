@@ -7,7 +7,7 @@ import { RegisterUser, LoginUser } from '../schemas';
 const router = express.Router();
 
 router.post('/register', schemaValition(RegisterUser), createUser);
-router.get('/renewSession', auth, renewToken, copyStatisticsByUser);
+router.get('/renew_session', auth, renewToken, copyStatisticsByUser);
 router.get('/logout', auth, logoutUser);
 router.post(
   '/login',

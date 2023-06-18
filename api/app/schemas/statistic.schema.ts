@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 const properties = {
-  initialAmount: z.number(),
+  amount: z.number(),
   userId: z.string(),
 };
 
 export const SetStatistic = z.object({
   body: z.object({
-    initialAmount: properties.initialAmount,
+    amount: properties.amount,
   }),
   query: z.object({
     id: properties.userId,

@@ -22,9 +22,9 @@ export const getStatistics: TMiddlewareParams = async (_req, res, next) => {
   }
 };
 
-export const setInitialAmount: TMiddlewareParams = async (req, res, next) => {
+export const addAmount: TMiddlewareParams = async (req, res, next) => {
   try {
-    const { initialAmount } = req.body as IStatisticReq;
+    const { amount } = req.body as IStatisticReq;
     const { id: statisticId } = req.query;
     const { id } = res.locals.authorized;
 
@@ -49,10 +49,48 @@ export const setInitialAmount: TMiddlewareParams = async (req, res, next) => {
     // Update statistic
     await Prisma.statistic.update({
       where: { id: String(statisticId) },
-      data: { initialAmount },
+      data: { initialAmount: findStatistic.initialAmount + amount },
     });
 
-    req.message = 'Initial amount set';
+    req.message = 'Amount of cash updated';
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editAmount: TMiddlewareParams = async (req, res, next) => {
+  try {
+    const { amount } = req.body as IStatisticReq;
+    const { id: statisticId } = req.query;
+    const { id } = res.locals.authorized;
+
+    // validate statistic id
+    if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
+
+    // Find the statistic of the logged user
+    const findStatistic = await Prisma.statistic.findUnique({
+      where: {
+        id: String(statisticId),
+      },
+    });
+
+    if (!findStatistic) {
+      return next(boom.badRequest('Statistic not found'));
+    }
+
+    if (findStatistic.userId !== id) {
+      return next(boom.unauthorized('Unauthorized'));
+    }
+
+    // Update statistic
+    await Prisma.statistic.update({
+      where: { id: String(statisticId) },
+      data: { initialAmount: amount },
+    });
+
+    req.message = 'Amount of cash updated';
 
     next();
   } catch (error) {
