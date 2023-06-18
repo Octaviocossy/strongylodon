@@ -1,5 +1,18 @@
-import { NextFunction, Request, Response } from 'express';
+import { Statistic, User } from '@prisma/client';
+import { Request, Response, NextFunction } from 'express';
 import { AnyZodObject } from 'zod';
+
+// Extend Express Request interface
+declare global {
+  namespace Express {
+    interface Request {
+      user?: User & {
+        Statistics: Statistic[];
+      };
+      message?: string;
+    }
+  }
+}
 
 export type TMiddlewareParams = (
   req: Request,

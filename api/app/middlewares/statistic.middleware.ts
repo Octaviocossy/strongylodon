@@ -3,9 +3,11 @@ import boom from '@hapi/boom';
 import { Prisma } from '../config';
 import { TMiddlewareParams } from '../models';
 
-export const updateStatistic: TMiddlewareParams = async (_req, res, next) => {
+export const updateStatistic: TMiddlewareParams = async (req, res, next) => {
   try {
     const { id } = res.locals.authorized;
+
+    const message = req.message;
 
     // find the statistic of the logged user
     const currentStatistic = await Prisma.statistic.findFirst({
@@ -33,6 +35,8 @@ export const updateStatistic: TMiddlewareParams = async (_req, res, next) => {
         currentAmount: currentStatistic.initialAmount - expensedAmount,
       },
     });
+
+    return res.status(201).json({ message });
   } catch (error) {
     next(error);
   }

@@ -13,7 +13,6 @@ router.post(
   '/login',
   schemaValition(LoginUser),
   loginUser,
-  auth,
   copyStatisticsByUser
 );
 
