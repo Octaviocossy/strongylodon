@@ -12,6 +12,7 @@ const useFirstLoad = <T>(fn: (() => T) | null) => {
     }
 
     result.current = fn && fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { result };
