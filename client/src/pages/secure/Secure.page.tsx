@@ -34,7 +34,7 @@ const Secure = () => {
 
   return (
     <Center>
-      <Spinner color={'primary'} size="2rem" />
+      <Spinner styles={'h-[2rem], w-[2rem]'} />
     </Center>
   );
 };
