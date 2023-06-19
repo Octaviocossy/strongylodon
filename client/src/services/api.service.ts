@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-import { EResult, IBoomError, IResult } from '../models';
+import { EResult, IResult } from '../models';
 
 import axios from './axios.service';
 
