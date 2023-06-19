@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { Input, Submit } from '../../ui';
+import { Center, Input, Submit } from '../../ui';
 import { useAuth, useAuthSelector } from '../../redux';
 import { getLocalStorage } from '../../utilities';
 import {
@@ -30,6 +30,7 @@ const Signin = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => onSignin(data);
 
+  // Redirect to dashboard if user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
       const savedLocation: IRedirect | null = getLocalStorage(
@@ -41,7 +42,7 @@ const Signin = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
+    <Center>
       <div>
         <h1 className="text-4xl font-semibold mb-4 text-blackprimary">
           Sign in
@@ -104,7 +105,7 @@ const Signin = () => {
           </p>
         </div>
       </div>
-    </div>
+    </Center>
   );
 };
 
