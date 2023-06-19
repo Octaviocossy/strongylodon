@@ -22,9 +22,11 @@ const Secure = () => {
   // Redirect to dashboard or saved location if user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const savedLocation: IRedirect = getLocalStorage(ELocalStorage.REDIRECT);
+      const savedLocation: IRedirect | null = getLocalStorage(
+        ELocalStorage.REDIRECT
+      );
 
-      navigate(savedLocation.path || ESecureRoutes.DASHBOARD);
+      navigate(savedLocation?.path || ESecureRoutes.DASHBOARD);
     }
 
     if (error) {
