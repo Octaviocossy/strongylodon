@@ -5,4 +5,7 @@ export interface IUser {
   created_at: string;
   updated_at: string | null;
   last_login_at: string | null;
+  password?: string;
 }
+
+export type TUserSignin = Pick<IUser, 'username' | 'password'>;
