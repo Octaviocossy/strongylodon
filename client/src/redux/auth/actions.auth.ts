@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import { EResult, IUser, TUserSignin } from '../../models';
 import { api } from '../../services';
+import { boomErrorValidator } from '../../utilities';
 
 import {
   _handleError,
@@ -23,9 +24,10 @@ const useAuth = () => {
         data
       );
 
-      if (type === EResult.SUCCESS) return dispatch(_handleUserData(value));
+      if (type === EResult.ERROR)
+        return dispatch(_handleError(boomErrorValidator(value)));
 
-      if (type === EResult.BOOM_ERROR) return dispatch(_handleError(value));
+      dispatch(_handleUserData(value));
     } catch (_error) {
       const error = _error as Error;
 
@@ -37,11 +39,12 @@ const useAuth = () => {
     try {
       dispatch(_handleStartLogin());
 
-      const { type, value } = await api.get<IUser>('/auth/renewSession');
+      const { type, value } = await api.get<IUser>('/auth/renew_session');
 
-      if (type === EResult.SUCCESS) return dispatch(_handleUserData(value));
+      if (type === EResult.ERROR)
+        return dispatch(_handleError(boomErrorValidator(value)));
 
-      if (type === EResult.BOOM_ERROR) return dispatch(_handleError(value));
+      dispatch(_handleUserData(value));
     } catch (_error) {
       const error = _error as Error;
 
