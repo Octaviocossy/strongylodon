@@ -20,7 +20,7 @@ const AuthGuard = () => {
   return isAuthenticated ? (
     <Outlet />
   ) : (
-    <Navigate replace to={EPublicRoutes.SIGNIN} />
+    <Navigate replace to={EPublicRoutes.SECURE} />
   );
 };
 

@@ -32,9 +32,11 @@ const Signin = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const savedLocation: IRedirect = getLocalStorage(ELocalStorage.REDIRECT);
+      const savedLocation: IRedirect | null = getLocalStorage(
+        ELocalStorage.REDIRECT
+      );
 
-      navigate(savedLocation.path || ESecureRoutes.DASHBOARD);
+      navigate(savedLocation?.path || ESecureRoutes.DASHBOARD);
     }
   }, [isAuthenticated, navigate]);
 

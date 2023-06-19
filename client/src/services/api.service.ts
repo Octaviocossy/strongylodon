@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-import { EResult, ICustomError, IResult } from '../models';
+import { EResult, IBoomError, IResult } from '../models';
 
 import axios from './axios.service';
 
@@ -15,9 +15,16 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
+      const error = _error as AxiosError<IBoomError>;
 
       console.log(error.response);
+
+      if (error.response?.data.statusCode) {
+        return {
+          type: EResult.BOOM_ERROR,
+          value: error.response.data as IBoomError,
+        };
+      }
 
       return { type: EResult.ERROR, value: error };
     }
@@ -32,14 +39,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
+      const error = _error as AxiosError<IBoomError>;
 
       console.log(error.response);
 
-      if (error.response?.status === 400) {
+      if (error.response?.data.statusCode) {
         return {
-          type: EResult.CUSTOM_ERR,
-          value: error.response.data as ICustomError,
+          type: EResult.BOOM_ERROR,
+          value: error.response.data as IBoomError,
         };
       }
 
@@ -57,14 +64,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
+      const error = _error as AxiosError<IBoomError>;
 
       console.log(error.response);
 
-      if (error.response?.status === 400) {
+      if (error.response?.data.statusCode) {
         return {
-          type: EResult.CUSTOM_ERR,
-          value: error.response.data as ICustomError,
+          type: EResult.BOOM_ERROR,
+          value: error.response.data as IBoomError,
         };
       }
 
@@ -82,14 +89,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
+      const error = _error as AxiosError<IBoomError>;
 
       console.log(error.response);
 
-      if (error.response?.status === 400) {
+      if (error.response?.data.statusCode) {
         return {
-          type: EResult.CUSTOM_ERR,
-          value: error.response.data as ICustomError,
+          type: EResult.BOOM_ERROR,
+          value: error.response.data as IBoomError,
         };
       }
 

@@ -23,13 +23,9 @@ const useAuth = () => {
         data
       );
 
-      if (type === EResult.CUSTOM_ERR) {
-        dispatch(_handleError(value));
+      if (type === EResult.SUCCESS) return dispatch(_handleUserData(value));
 
-        return;
-      }
-
-      dispatch(_handleUserData(value));
+      if (type === EResult.BOOM_ERROR) return dispatch(_handleError(value));
     } catch (_error) {
       const error = _error as Error;
 
@@ -37,7 +33,23 @@ const useAuth = () => {
     }
   };
 
-  return { onSignin };
+  const onRenewSession = async () => {
+    try {
+      dispatch(_handleStartLogin());
+
+      const { type, value } = await api.get<IUser>('/auth/renewSession');
+
+      if (type === EResult.SUCCESS) return dispatch(_handleUserData(value));
+
+      if (type === EResult.BOOM_ERROR) return dispatch(_handleError(value));
+    } catch (_error) {
+      const error = _error as Error;
+
+      console.log(error.message);
+    }
+  };
+
+  return { onSignin, onRenewSession };
 };
 
 export default useAuth;
