@@ -1,4 +1,4 @@
-import { IUser } from '.';
+import { IBoomError, IUser } from '.';
 
 export interface IAppStore {
   auth: IAuthStore;
@@ -6,5 +6,7 @@ export interface IAppStore {
 
 export interface IAuthStore {
   userdata: IUser;
+  isLoading: boolean;
   isAuthenticated: boolean;
+  error: IBoomError | null;
 }
