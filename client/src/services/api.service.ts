@@ -15,18 +15,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError<IBoomError>;
+      const error = _error as AxiosError;
 
       console.log(error.response);
 
-      if (error.response?.data.statusCode) {
-        return {
-          type: EResult.BOOM_ERROR,
-          value: error.response.data as IBoomError,
-        };
-      }
-
-      return { type: EResult.ERROR, value: error };
+      return {
+        type: EResult.ERROR,
+        value: error,
+      };
     }
   },
   post: async <T, R>(url: string, data: T): Promise<IResult<R>> => {
@@ -39,18 +35,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError<IBoomError>;
+      const error = _error as AxiosError;
 
       console.log(error.response);
 
-      if (error.response?.data.statusCode) {
-        return {
-          type: EResult.BOOM_ERROR,
-          value: error.response.data as IBoomError,
-        };
-      }
-
-      return { type: EResult.ERROR, value: error as AxiosError };
+      return {
+        type: EResult.ERROR,
+        value: error,
+      };
     }
   },
 
@@ -64,18 +56,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError<IBoomError>;
+      const error = _error as AxiosError;
 
       console.log(error.response);
 
-      if (error.response?.data.statusCode) {
-        return {
-          type: EResult.BOOM_ERROR,
-          value: error.response.data as IBoomError,
-        };
-      }
-
-      return { type: EResult.ERROR, value: error as AxiosError };
+      return {
+        type: EResult.ERROR,
+        value: error,
+      };
     }
   },
 
@@ -89,18 +77,14 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError<IBoomError>;
+      const error = _error as AxiosError;
 
       console.log(error.response);
 
-      if (error.response?.data.statusCode) {
-        return {
-          type: EResult.BOOM_ERROR,
-          value: error.response.data as IBoomError,
-        };
-      }
-
-      return { type: EResult.ERROR, value: error as AxiosError };
+      return {
+        type: EResult.ERROR,
+        value: error,
+      };
     }
   },
 };

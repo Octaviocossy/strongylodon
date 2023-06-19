@@ -1,14 +1,15 @@
 import { AxiosError } from 'axios';
 
+export enum EResult {
+  ERROR = 'error',
+  SUCCESS = 'success',
+}
+
 export interface IBoomError {
   statusCode: number;
   error: string;
   message: string;
-}
-
-export interface IBoomErr {
-  type: EResult.BOOM_ERROR;
-  value: IBoomError;
+  isBoom: boolean;
 }
 
 export interface IErr {
@@ -21,14 +22,4 @@ export interface ISuccess<T> {
   value: T;
 }
 
-export interface IMessage {
-  msg: string;
-}
-
-export type IResult<T> = ISuccess<T> | IErr | IBoomErr;
-
-export enum EResult {
-  ERROR = 'error',
-  BOOM_ERROR = 'boom_error',
-  SUCCESS = 'success',
-}
+export type IResult<T> = ISuccess<T> | IErr;
