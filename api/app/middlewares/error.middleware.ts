@@ -18,7 +18,9 @@ export const boomErrorHandler: TMiddlewareErrorParams<BoomError> = (
   if (err.isBoom) {
     const { output } = err;
 
-    return res.status(output.statusCode).json(output.payload);
+    return res
+      .status(output.statusCode)
+      .json({ ...output.payload, isBoom: true });
   }
 
   return next(err);
