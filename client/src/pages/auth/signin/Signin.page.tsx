@@ -1,16 +1,19 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
-import { Center, Input, Submit } from '../../ui';
-import { useAuth, useAuthSelector } from '../../redux';
-import { getLocalStorage } from '../../utilities';
+import { useAuth, useAuthSelector } from '../../../redux';
+import { Center, Input, Submit } from '../../../ui';
+import { getLocalStorage } from '../../../utilities';
 import {
   ELocalStorage,
   EPublicRoutes,
   ESecureRoutes,
   IRedirect,
-} from '../../models';
+} from '../../../models';
+
+import { signin } from './signin.zod';
 
 interface IFormInput {
   username: string;
@@ -22,7 +25,9 @@ const Signin = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>();
+  } = useForm<IFormInput>({
+    resolver: zodResolver(signin),
+  });
 
   const { onSignin } = useAuth();
   const { isAuthenticated } = useAuthSelector();
@@ -56,19 +61,7 @@ const Signin = () => {
             label="Username*"
             name="username"
             placeholder="Enter your username"
-            register={{
-              ...register('username', {
-                required: 'Username is required',
-                minLength: {
-                  message: 'Must be at least 4 characters.',
-                  value: 4,
-                },
-                maxLength: {
-                  message: 'Must be less than 30 characters.',
-                  value: 30,
-                },
-              }),
-            }}
+            register={{ ...register('username') }}
             styles="w-[23rem]"
             type="text"
           />
@@ -78,15 +71,7 @@ const Signin = () => {
             label="Password*"
             name="password"
             placeholder="Enter your password"
-            register={{
-              ...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  message: 'Must be at least 6 characters.',
-                  value: 6,
-                },
-              }),
-            }}
+            register={{ ...register('password') }}
             styles="w-[23rem]"
             type="password"
           />
