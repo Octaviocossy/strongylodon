@@ -7,6 +7,7 @@ export interface IAppStore {
 export interface IAuthStore {
   userdata: IUser;
   isLoading: boolean;
+  ok: boolean | null;
   isAuthenticated: boolean;
   error: IBoomError | null;
 }

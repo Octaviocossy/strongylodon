@@ -4,9 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
 import { useAuth, useAuthSelector } from '../../../redux';
-import { Center, Input, Submit } from '../../../ui';
-import { getLocalStorage } from '../../../utilities';
+import { Center, Error, Input, Submit } from '../../../ui';
+import { getLocalStorage, handleErrorInput } from '../../../utilities';
 import {
+  EFields,
   ELocalStorage,
   EPublicRoutes,
   ESecureRoutes,
@@ -29,8 +30,8 @@ const Signin = () => {
     resolver: zodResolver(signin),
   });
 
-  const { onSignin } = useAuth();
-  const { isAuthenticated } = useAuthSelector();
+  const { onSignin, onCleanError } = useAuth();
+  const { isAuthenticated, error } = useAuthSelector();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => onSignin(data);
@@ -44,6 +45,13 @@ const Signin = () => {
 
       navigate(savedLocation?.path || ESecureRoutes.DASHBOARD);
     }
+
+    return () => {
+      // Cleanup
+      onCleanError();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, navigate]);
 
   return (
@@ -55,27 +63,26 @@ const Signin = () => {
         <p className="mb-3 text-gray-500 font-semibold">
           Sign in to see your monthly expenses! 💸
         </p>
+        {error && <Error message={error.message} styles={'text-warn mb-3'} />}
         <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           <Input
-            error={errors.username && errors.username}
+            error={handleErrorInput<IFormInput>(EFields.USERNAME, null, errors)}
             label="Username*"
-            name="username"
+            name={EFields.USERNAME}
             placeholder="Enter your username"
-            register={{ ...register('username') }}
+            register={{ ...register(EFields.USERNAME) }}
             styles="w-[23rem]"
             type="text"
           />
-
           <Input
-            error={errors.password && errors.password}
+            error={handleErrorInput<IFormInput>(EFields.PASSWORD, null, errors)}
             label="Password*"
-            name="password"
+            name={EFields.PASSWORD}
             placeholder="Enter your password"
-            register={{ ...register('password') }}
+            register={{ ...register(EFields.PASSWORD) }}
             styles="w-[23rem]"
             type="password"
           />
-
           <Submit styles="mt-2" text="Sign In" />
         </form>
         <div className="flex">

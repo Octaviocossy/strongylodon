@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { EPublicRoutes, secureRoutesArray } from '../models';
-import { persistLocalStorage } from '../utilities';
+import { EPublicRoutes, ESecureRoutes } from '../models';
+import { parseEnumToArray, persistLocalStorage } from '../utilities';
 import { useAuthSelector } from '../redux';
 
 const AuthGuard = () => {
@@ -12,7 +12,7 @@ const AuthGuard = () => {
 
   useEffect(() => {
     // save current path to redirect after login
-    if (secureRoutesArray.includes(pathname)) {
+    if (parseEnumToArray(ESecureRoutes).includes(pathname)) {
       persistLocalStorage('redirect', { path: pathname });
     }
   }, [pathname]);

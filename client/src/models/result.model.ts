@@ -6,6 +6,7 @@ export enum EResult {
 }
 
 export interface IBoomError {
+  field?: string;
   statusCode: number;
   error: string;
   message: string;
