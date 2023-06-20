@@ -9,3 +9,4 @@ export interface IUser {
 }
 
 export type TUserSignin = Pick<IUser, 'username' | 'password'>;
+export type TUserSignup = Pick<IUser, 'username' | 'password' | 'email'>;

@@ -1,10 +1,13 @@
-import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
+
+import { Error } from '..';
+import { IBoomError } from '../../models';
 
 interface IProps {
   type: string;
   label?: string;
   name?: string;
-  error?: FieldError;
+  error?: FieldErrors | IBoomError | undefined;
   placeholder?: string;
   register?: UseFormRegisterReturn;
   styles?: string;
@@ -29,9 +32,10 @@ const Input: React.FC<IProps> = (props) => (
       type={props.type}
     />
     {props.error && (
-      <span className="font-medium italic text-warn mt-2">
-        | {props.error.message}*
-      </span>
+      <Error
+        message={(props.error.message as string) || ''}
+        styles={'text-warn'}
+      />
     )}
   </section>
 );
