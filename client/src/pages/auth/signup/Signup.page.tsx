@@ -4,9 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
 import { useAuth, useAuthSelector } from '../../../redux';
-import { Center, Input, Submit } from '../../../ui';
-import { EFields, EPublicRoutes } from '../../../models';
+import { Center, Input, Button } from '../../../ui';
+import { EFields, EPublicRoutes, EToastType } from '../../../models';
 import { handleErrorInput } from '../../../utilities';
+import { useToast } from '../../../hooks';
 
 import { signup } from './signup.zod';
 
@@ -26,8 +27,10 @@ const Signin = () => {
     resolver: zodResolver(signup),
   });
 
+  const { toast } = useToast();
+
   const { onSignup, onHandleOk, onCleanError } = useAuth();
-  const { error, ok } = useAuthSelector();
+  const { error, ok, isLoading } = useAuthSelector();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -40,6 +43,12 @@ const Signin = () => {
   // Redirect to signin if user is created
   useEffect(() => {
     if (ok) {
+      toast({
+        message: 'User created successfully!',
+        type: EToastType.SUCCESS,
+        icon: '🎉',
+      });
+
       navigate(EPublicRoutes.SIGNIN);
     }
 
@@ -111,7 +120,12 @@ const Signin = () => {
             styles="w-[23rem]"
             type="password"
           />
-          <Submit styles="mt-2" text="Sign Up" />
+          <Button
+            loading={isLoading}
+            styles="bg-blackprimary text-white hover:bg-primary"
+            text="Sign Up"
+            type="submit"
+          />
         </form>
         <div className="flex">
           <p className="mt-8 text-sm font-semibold text-blackprimary m-auto">

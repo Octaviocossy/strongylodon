@@ -4,7 +4,7 @@ interface IProps {
 
 const Center: React.FC<IProps> = ({ children }) => {
   return (
-    <div className="flex justify-center center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen">
       {children}
     </div>
   );

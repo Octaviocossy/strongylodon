@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
 import { useAuth, useAuthSelector } from '../../../redux';
-import { Center, Error, Input, Submit } from '../../../ui';
+import { Button, Center, Error, Input } from '../../../ui';
 import { getLocalStorage, handleErrorInput } from '../../../utilities';
 import {
   EFields,
@@ -31,7 +31,7 @@ const Signin = () => {
   });
 
   const { onSignin, onCleanError } = useAuth();
-  const { isAuthenticated, error } = useAuthSelector();
+  const { isAuthenticated, error, isLoading } = useAuthSelector();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => onSignin(data);
@@ -83,7 +83,12 @@ const Signin = () => {
             styles="w-[23rem]"
             type="password"
           />
-          <Submit styles="mt-2" text="Sign In" />
+          <Button
+            loading={isLoading}
+            styles="bg-blackprimary text-white hover:bg-primary"
+            text="Sign In"
+            type="submit"
+          />
         </form>
         <div className="flex">
           <p className="mt-8 text-sm font-semibold text-blackprimary m-auto">

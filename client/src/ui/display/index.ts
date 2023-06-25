@@ -1,2 +1,2 @@
-export { default as Center } from './Center.ui';
-export { default as Layout } from './Layout.ui';
+export { default as Center } from './Center.display';
+export { default as Layout } from './Layout.display';
