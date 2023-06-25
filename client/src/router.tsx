@@ -1,6 +1,6 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 
-import { Dashboard, Secure, Signin, Signup } from './pages';
+import { Dashboard, Secure, Signin, Signup, SuperBuy } from './pages';
 import { AuthGuard } from './guards';
 import { EPublicRoutes, ESecureRoutes } from './models';
 import { Layout, FeedBackLayout } from './ui';
@@ -21,6 +21,7 @@ const Router = createBrowserRouter([
             element: <Layout />,
             children: [
               { path: ESecureRoutes.DASHBOARD, element: <Dashboard /> },
+              { path: ESecureRoutes.SUPERBUY, element: <SuperBuy /> },
             ],
           },
         ],
