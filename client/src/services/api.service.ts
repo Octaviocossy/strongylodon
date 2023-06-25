@@ -17,6 +17,7 @@ const api = {
     } catch (_error) {
       const error = _error as AxiosError;
 
+      // eslint-disable-next-line no-console
       console.log(error.response);
 
       return {
@@ -37,6 +38,7 @@ const api = {
     } catch (_error) {
       const error = _error as AxiosError;
 
+      // eslint-disable-next-line no-console
       console.log(error.response);
 
       return {
@@ -58,6 +60,7 @@ const api = {
     } catch (_error) {
       const error = _error as AxiosError;
 
+      // eslint-disable-next-line no-console
       console.log(error.response);
 
       return {
@@ -79,6 +82,7 @@ const api = {
     } catch (_error) {
       const error = _error as AxiosError;
 
+      // eslint-disable-next-line no-console
       console.log(error.response);
 
       return {
