@@ -1,4 +1,4 @@
-# MyExpenses Backend 💾
+# Strongylodon Backend 💾
 
 ### Auth 🔐
 | Method     | Endpoint                        | Description                 | Auth (JWT) | Body                                            | Query
