@@ -1,4 +1,4 @@
-name: myexpenses
+name: strongylodon
 
 services:
   postgres:
