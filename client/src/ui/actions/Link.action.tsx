@@ -1,20 +1,18 @@
-import { Link as RRouterLink, useLocation } from 'react-router-dom';
+import { Link as RRouterLink } from 'react-router-dom';
 
 interface IProps {
   to: string;
-  styles?: string;
+  className?: string;
   text: string;
   underline?: boolean;
 }
 
-const Link: React.FC<IProps> = ({ to, text, underline }) => {
-  const { pathname } = useLocation();
-
+const Link: React.FC<IProps> = ({ to, text, underline, className }) => {
   return (
     <RRouterLink
       className={`font-semibold hover:underline ${
-        underline && pathname === to && 'underline'
-      }`}
+        underline && 'underline'
+      } ${className}`}
       to={to}
     >
       {text}
