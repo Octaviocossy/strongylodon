@@ -16,7 +16,7 @@ const Button: React.FC<IProps> = (props) => {
     >
       {props.loading ? (
         <div className="flex justify-center">
-          <Spinner color="text-white" styles={'h-[1.5rem], w-[1.5rem]'} />{' '}
+          <Spinner color="text-white" styles={'h-[1.3rem], w-[1.3rem]'} />{' '}
         </div>
       ) : (
         props.text

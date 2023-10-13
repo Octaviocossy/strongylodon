@@ -10,9 +10,7 @@ interface IProps {
 const Link: React.FC<IProps> = ({ to, text, underline, className }) => {
   return (
     <RRouterLink
-      className={`font-semibold hover:underline ${
-        underline && 'underline'
-      } ${className}`}
+      className={`hover:underline ${underline && 'underline'} ${className}`}
       to={to}
     >
       {text}

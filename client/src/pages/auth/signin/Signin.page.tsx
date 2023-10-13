@@ -86,7 +86,7 @@ const Signin = () => {
           />
           <Button
             loading={isLoading}
-            styles="bg-blackprimary text-white hover:bg-primary"
+            styles="bg-blackprimary text-white hover:bg-primary h-[2.5rem]"
             text="Sign In"
             type="submit"
           />
