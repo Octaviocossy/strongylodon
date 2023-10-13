@@ -1,6 +1,5 @@
 import BoringAvatars from 'boring-avatars';
-
-import { useAuthSelector } from '../../redux';
+import { useAuthSelector } from '@redux';
 
 interface IProps {
   size?: number;

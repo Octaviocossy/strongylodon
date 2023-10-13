@@ -1,6 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-
-import { Spinner } from '..';
+import { Spinner } from '@ui';
 
 interface IProps {
   text: string;

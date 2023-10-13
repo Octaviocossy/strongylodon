@@ -1,10 +1,9 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { lazy } from 'react';
-
-import { Secure } from './pages';
-import { AuthGuard } from './guards';
-import { EPublicRoutes, ESecureRoutes } from './models';
-import { Layout, FeedBackLayout } from './ui';
+import { Secure } from '@pages';
+import { AuthGuard } from '@guards';
+import { EPublicRoutes, ESecureRoutes } from '@models';
+import { Layout, FeedBackLayout } from '@ui';
 
 // Lazy components
 const Signin = lazy(() => import('./pages/auth/signin/Signin.page'));

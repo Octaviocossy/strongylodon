@@ -1,6 +1,5 @@
 import toast from 'react-hot-toast';
-
-import { EToastPosition, EToastType } from '../models';
+import { EToastPosition, EToastType } from '@models';
 
 interface IProps {
   message: string;

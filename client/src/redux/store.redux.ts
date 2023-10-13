@@ -1,8 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-import { IAppStore } from '../models';
-
-import { authState } from '.';
+import { authState } from '@redux';
+import { IAppStore } from '@models';
 
 const Store = configureStore<IAppStore>({
   reducer: {

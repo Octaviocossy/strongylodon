@@ -1,10 +1,7 @@
 import { useLocation } from 'react-router-dom';
-
-import { ESecureRoutes } from '../../models';
-import { Logo } from '../../assets';
-import { Container, Link } from '..';
-
-import { Avatar } from '.';
+import { Container, Link, Avatar } from '@ui';
+import { ESecureRoutes } from '@models';
+import { Logo } from '@assets';
 
 const links: { to: string; text: string }[] = [
   {
@@ -29,6 +26,7 @@ const Navbar = () => {
         {links.map((_link) => (
           <Link
             key={_link.to}
+            className="font-bold"
             text={_link.text}
             to={_link.to}
             underline={pathname === _link.to}

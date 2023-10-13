@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { IUser, IAuthStore } from '../../models';
+import { IUser, IAuthStore } from '@models';
 
 const UserEmptyState: IAuthStore = {
   userdata: {} as IUser,

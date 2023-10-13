@@ -2,10 +2,10 @@ import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Store } from '@redux';
+import { Loader } from '@ui';
 
 import Router from './router';
-import { Store } from './redux';
-import { Loader } from './ui';
 
 import './index.css';
 

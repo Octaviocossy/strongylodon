@@ -1,9 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-
-import { EPublicRoutes, ESecureRoutes } from '../models';
-import { parseEnumToArray, persistLocalStorage } from '../utilities';
-import { useAuthSelector } from '../redux';
+import { EPublicRoutes, ESecureRoutes } from '@models';
+import { parseEnumToArray, persistLocalStorage } from '@utilities';
+import { useAuthSelector } from '@redux';
 
 const AuthGuard = () => {
   const { isAuthenticated } = useAuthSelector();
