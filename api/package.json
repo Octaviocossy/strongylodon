@@ -1,7 +1,7 @@
 {
-  "name": "expenses-api",
+  "name": "strongylodon-api",
   "version": "1.0.0",
-  "description": "expenses app api",
+  "description": "strongylodon app api",
   "main": "app/index.ts",
   "scripts": {
     "build": "npx tsc",

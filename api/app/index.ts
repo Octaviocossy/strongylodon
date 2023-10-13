@@ -20,5 +20,6 @@ app.use(zodErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`[🧪]: Server is running at port: ${port}`);
 });
