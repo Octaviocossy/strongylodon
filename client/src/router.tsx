@@ -1,9 +1,16 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { lazy } from 'react';
 
-import { Dashboard, Secure, Signin, Signup, SuperBuy } from './pages';
+import { Secure } from './pages';
 import { AuthGuard } from './guards';
 import { EPublicRoutes, ESecureRoutes } from './models';
 import { Layout, FeedBackLayout } from './ui';
+
+// Lazy components
+const Signin = lazy(() => import('./pages/auth/signin/Signin.page'));
+const Signup = lazy(() => import('./pages/auth/signup/Signup.page'));
+const Dashboard = lazy(() => import('./pages/secure/dashboard/Dashboard.page'));
+const SuperBuy = lazy(() => import('./pages/secure/superbuy/SuperBuy.page'));
 
 const Router = createBrowserRouter([
   {

@@ -1,12 +1,12 @@
 import { ESecureRoutes } from '../../models';
 import { Logo } from '../../assets';
-import { Link } from '..';
+import { Container, Link } from '..';
 
 import { Avatar } from '.';
 
 const Navbar = () => {
   return (
-    <div className="py-[1rem] flex">
+    <Container className="py-[1rem] flex absolute w-full top-0 left-0 right-0">
       <section className="flex-1">
         <img className="h-12 w-12 drop-shadow-xl" src={Logo} />
       </section>
@@ -19,7 +19,7 @@ const Navbar = () => {
         />
         <Avatar />
       </section>
-    </div>
+    </Container>
   );
 };
 

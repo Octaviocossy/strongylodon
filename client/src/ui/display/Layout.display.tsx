@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom';
 
-import { Container, Navbar } from '.';
+import { Container, Navbar } from '..';
 
 const Layout = () => {
   return (
     <Container>
       <Navbar />
-      <Outlet />
+      <div className="mt-[5rem]">
+        <Outlet />
+      </div>
     </Container>
   );
 };
