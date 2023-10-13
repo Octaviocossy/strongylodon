@@ -18,7 +18,7 @@ interface IFormInput {
   email: string;
 }
 
-const Signin = () => {
+const Signup = () => {
   const {
     register,
     handleSubmit,
@@ -143,4 +143,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signup;
