@@ -28,3 +28,9 @@ export const LoginUser = z.object({
     password: properties.password,
   }),
 });
+
+export const EmailToken = z.object({
+  query: z.object({
+    token: z.string({ required_error: 'Token is required' }),
+  }),
+});

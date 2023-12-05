@@ -1,9 +1,11 @@
+import { randomUUID } from 'crypto';
+
 import boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
 
 import { TCreateUserReq, TLoginUserReq, TMiddlewareParams } from '../models';
 import { Prisma } from '../config';
-import { generateJWT } from '../utilities';
+import { generateJWT, parseCookiesToObject, sendEmail } from '../utilities';
 
 export const createUser: TMiddlewareParams = async (req, res, next) => {
   try {
@@ -28,7 +30,7 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user and statistic
-    await Prisma.user.create({
+    const { id } = await Prisma.user.create({
       data: {
         username,
         email,
@@ -37,11 +39,56 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
           create: { initialAmount: 0, currentAmount: 0, expensedAmount: 0 },
         },
       },
+      select: { id: true },
+    });
+
+    const randomToken = randomUUID();
+
+    if (!(await sendEmail({ email, token: randomToken })).status) {
+      return next(boom.badRequest('Email could not be sent'));
+    }
+
+    // Creates cookie for user session
+    res.cookie('token', generateJWT({ id }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    // Create cookie for email verification
+    res.cookie(`email_token-${randomToken}`, randomToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      expires: new Date(Date.now() + (1000 * 60 * 60 * 1) / 5),
     });
 
     return res.status(201).json({ msg: 'User created successfully' });
   } catch (error) {
     next(error);
+  }
+};
+
+export const verifyEmailToken: TMiddlewareParams = async (req, res, next) => {
+  try {
+    const { id } = res.locals.authorized;
+    const { token } = req.query;
+    const { cookie } = req.headers;
+
+    const parsedCookie = parseCookiesToObject(cookie as string);
+
+    if (token?.toString().trim() !== parsedCookie[`email_token-${token}`]) {
+      return next(boom.badRequest('Invalid token'));
+    }
+
+    await Prisma.user.update({
+      where: { id },
+      data: { is_active: true },
+    });
+
+    res.clearCookie(`email_token-${token}`);
+
+    return res.status(200).json({ message: 'Email verified successfully' });
+  } catch (error) {
+    return next(error);
   }
 };
 
