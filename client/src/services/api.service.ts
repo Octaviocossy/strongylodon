@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
-
-import { EResult, IResult } from '../models';
+import { EResult, IResult } from '@models';
 
 import axios from './axios.service';
 
@@ -15,14 +14,9 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
-
-      // eslint-disable-next-line no-console
-      console.log(error.response);
-
       return {
         type: EResult.ERROR,
-        value: error,
+        value: _error as AxiosError,
       };
     }
   },
@@ -36,14 +30,9 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
-
-      // eslint-disable-next-line no-console
-      console.log(error.response);
-
       return {
         type: EResult.ERROR,
-        value: error,
+        value: _error as AxiosError,
       };
     }
   },
@@ -58,14 +47,9 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
-
-      // eslint-disable-next-line no-console
-      console.log(error.response);
-
       return {
         type: EResult.ERROR,
-        value: error,
+        value: _error as AxiosError,
       };
     }
   },
@@ -80,14 +64,9 @@ const api = {
 
       throw new Error(`Data fetching error -> ${url}`);
     } catch (_error) {
-      const error = _error as AxiosError;
-
-      // eslint-disable-next-line no-console
-      console.log(error.response);
-
       return {
         type: EResult.ERROR,
-        value: error,
+        value: _error as AxiosError,
       };
     }
   },

@@ -2,12 +2,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-
-import { useAuth, useAuthSelector } from '../../../redux';
-import { Center, Input, Button } from '../../../ui';
-import { EFields, EPublicRoutes, EToastType } from '../../../models';
-import { handleErrorInput } from '../../../utilities';
-import { useToast } from '../../../hooks';
+import { useAuth, useAuthSelector } from '@redux';
+import { Center, Input, Button } from '@ui';
+import { EFields, EPublicRoutes, EToastType } from '@models';
+import { handleErrorInput } from '@utilities';
+import { useToast } from '@hooks';
 
 import { signup } from './signup.zod';
 
@@ -18,7 +17,7 @@ interface IFormInput {
   email: string;
 }
 
-const Signin = () => {
+const Signup = () => {
   const {
     register,
     handleSubmit,
@@ -143,4 +142,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signup;

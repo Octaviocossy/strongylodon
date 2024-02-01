@@ -1,9 +1,7 @@
 import { AxiosError } from 'axios';
 import { FieldErrors } from 'react-hook-form';
-
-import { EFields, IBoomError } from '../models';
-
-import { parseEnumToArray } from '.';
+import { EFields, IBoomError } from '@models';
+import { parseEnumToArray } from '@utilities';
 
 export const boomValidator = (error: AxiosError): IBoomError | null => {
   const { response } = error as AxiosError<IBoomError>;

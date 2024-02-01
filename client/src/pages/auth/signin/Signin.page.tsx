@@ -2,17 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-
-import { useAuth, useAuthSelector } from '../../../redux';
-import { Button, Center, Error, Input } from '../../../ui';
-import { getLocalStorage, handleErrorInput } from '../../../utilities';
-import {
-  EFields,
-  ELocalStorage,
-  EPublicRoutes,
-  ESecureRoutes,
-  IRedirect,
-} from '../../../models';
+import { useAuth, useAuthSelector } from '@redux';
+import { Button, Center, Error, Input } from '@ui';
+import { getLocalStorage, handleErrorInput } from '@utilities';
+import * as Models from '@models';
 
 import { signin } from './signin.zod';
 
@@ -39,11 +32,11 @@ const Signin = () => {
   // Redirect to dashboard if user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const savedLocation: IRedirect | null = getLocalStorage(
-        ELocalStorage.REDIRECT
+      const savedLocation: Models.IRedirect | null = getLocalStorage(
+        Models.ELocalStorage.REDIRECT
       );
 
-      navigate(savedLocation?.path || ESecureRoutes.DASHBOARD);
+      navigate(savedLocation?.path || Models.ESecureRoutes.DASHBOARD);
     }
 
     return () => {
@@ -66,26 +59,34 @@ const Signin = () => {
         {error && <Error message={error.message} styles={'text-warn mb-3'} />}
         <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           <Input
-            error={handleErrorInput<IFormInput>(EFields.USERNAME, null, errors)}
+            error={handleErrorInput<IFormInput>(
+              Models.EFields.USERNAME,
+              null,
+              errors
+            )}
             label="Username*"
-            name={EFields.USERNAME}
+            name={Models.EFields.USERNAME}
             placeholder="Enter your username"
-            register={{ ...register(EFields.USERNAME) }}
+            register={{ ...register(Models.EFields.USERNAME) }}
             styles="w-[23rem]"
             type="text"
           />
           <Input
-            error={handleErrorInput<IFormInput>(EFields.PASSWORD, null, errors)}
+            error={handleErrorInput<IFormInput>(
+              Models.EFields.PASSWORD,
+              null,
+              errors
+            )}
             label="Password*"
-            name={EFields.PASSWORD}
+            name={Models.EFields.PASSWORD}
             placeholder="Enter your password"
-            register={{ ...register(EFields.PASSWORD) }}
+            register={{ ...register(Models.EFields.PASSWORD) }}
             styles="w-[23rem]"
             type="password"
           />
           <Button
             loading={isLoading}
-            styles="bg-blackprimary text-white hover:bg-primary"
+            styles="bg-blackprimary text-white hover:bg-primary h-[2.5rem]"
             text="Sign In"
             type="submit"
           />
@@ -95,7 +96,7 @@ const Signin = () => {
             {"Don't have an account?"}{' '}
             <Link
               className="underline hover:text-primary transition-colors"
-              to={EPublicRoutes.SIGNUP}
+              to={Models.EPublicRoutes.SIGNUP}
             >
               Sign up
             </Link>

@@ -1,4 +1,4 @@
-import { IBoomError, IUser } from '.';
+import { IBoomError, IUser } from '@models';
 
 export interface IAppStore {
   auth: IAuthStore;

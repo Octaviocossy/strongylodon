@@ -1,7 +1,6 @@
 import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
-
-import { Error } from '..';
-import { IBoomError } from '../../models';
+import { Error } from '@ui';
+import { IBoomError } from '@models';
 
 interface IProps {
   type: string;

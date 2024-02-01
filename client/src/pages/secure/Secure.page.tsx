@@ -1,16 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-
-import { useAuth, useAuthSelector } from '../../redux';
-import { getLocalStorage } from '../../utilities';
-import { Center, Spinner } from '../../ui';
-import { useFirstLoad } from '../../hooks';
-import {
-  ELocalStorage,
-  EPublicRoutes,
-  ESecureRoutes,
-  IRedirect,
-} from '../../models';
+import { useAuth, useAuthSelector } from '@redux';
+import { getLocalStorage } from '@utilities';
+import { Center, Spinner } from '@ui';
+import { useFirstLoad } from '@hooks';
+import * as Models from '@models';
 
 const Secure = () => {
   const { onRenewSession } = useAuth();
@@ -22,15 +16,15 @@ const Secure = () => {
   // Redirect to dashboard or saved location if user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const savedLocation: IRedirect | null = getLocalStorage(
-        ELocalStorage.REDIRECT
+      const savedLocation: Models.IRedirect | null = getLocalStorage(
+        Models.ELocalStorage.REDIRECT
       );
 
-      navigate(savedLocation?.path || ESecureRoutes.DASHBOARD);
+      navigate(savedLocation?.path || Models.ESecureRoutes.DASHBOARD);
     }
 
     if (error) {
-      navigate(EPublicRoutes.SIGNIN);
+      navigate(Models.EPublicRoutes.SIGNIN);
     }
   }, [error, isAuthenticated, navigate]);
 
