@@ -1,5 +1,5 @@
-import { Category } from '@prisma/client';
+import { Categories } from '@prisma/client';
 
 export interface ICategoryReq {
-  title: Category['title'];
+  title: Categories['title'];
 }

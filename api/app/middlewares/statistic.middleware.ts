@@ -10,14 +10,14 @@ export const updateStatistic: TMiddlewareParams = async (req, res, next) => {
     const message = req.message;
 
     // find the statistic of the logged user
-    const currentStatistic = await Prisma.statistic.findFirst({
+    const currentStatistic = await Prisma.statistics.findFirst({
       where: { userId: id },
     });
 
     if (!currentStatistic) return next(boom.badRequest('Statistic not found'));
 
     // get all expenses of the logged user
-    const expenses = await Prisma.expense.findMany({
+    const expenses = await Prisma.expenses.findMany({
       where: { userId: id },
     });
 
@@ -28,7 +28,7 @@ export const updateStatistic: TMiddlewareParams = async (req, res, next) => {
     );
 
     // update statistic
-    await Prisma.statistic.update({
+    await Prisma.statistics.update({
       where: { id: currentStatistic.id },
       data: {
         expensedAmount: expensedAmount,
@@ -56,14 +56,14 @@ export const copyStatisticByUser: TMiddlewareParams = async (
 
     // In case of the month is different, create a new historical and update the current statistic
     if (new Date(statistic.created_at).getMonth() !== new Date().getMonth()) {
-      const createHistorical = Prisma.hStatistic.create({
+      const createHistorical = Prisma.hStatistics.create({
         data: {
           ...statistic,
           id: undefined,
         },
       });
 
-      const updateCurrentStatistic = Prisma.statistic.update({
+      const updateCurrentStatistic = Prisma.statistics.update({
         where: { id: statistic.id },
         data: {
           ...statistic,

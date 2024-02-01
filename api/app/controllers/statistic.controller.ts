@@ -10,7 +10,7 @@ export const getStatistics: TMiddlewareParams = async (_req, res, next) => {
     const { id } = res.locals.authorized;
 
     // Find the statistic of the logged user
-    const findStatistic = await Prisma.statistic.findFirst({
+    const findStatistic = await Prisma.statistics.findFirst({
       where: {
         userId: id,
       },
@@ -32,7 +32,7 @@ export const addAmount: TMiddlewareParams = async (req, res, next) => {
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
     // Find the statistic of the logged user
-    const findStatistic = await Prisma.statistic.findUnique({
+    const findStatistic = await Prisma.statistics.findUnique({
       where: {
         id: String(statisticId),
       },
@@ -47,7 +47,7 @@ export const addAmount: TMiddlewareParams = async (req, res, next) => {
     }
 
     // Update statistic
-    await Prisma.statistic.update({
+    await Prisma.statistics.update({
       where: { id: String(statisticId) },
       data: { initialAmount: findStatistic.initialAmount + amount },
     });
@@ -70,7 +70,7 @@ export const editAmount: TMiddlewareParams = async (req, res, next) => {
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
     // Find the statistic of the logged user
-    const findStatistic = await Prisma.statistic.findUnique({
+    const findStatistic = await Prisma.statistics.findUnique({
       where: {
         id: String(statisticId),
       },
@@ -85,7 +85,7 @@ export const editAmount: TMiddlewareParams = async (req, res, next) => {
     }
 
     // Update statistic
-    await Prisma.statistic.update({
+    await Prisma.statistics.update({
       where: { id: String(statisticId) },
       data: { initialAmount: amount },
     });

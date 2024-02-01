@@ -9,7 +9,7 @@ export const expenseCategoryValidation = async (
     const notFound: string[] = [];
 
     // get all of the categories created by the logged user
-    const allCategories = await Prisma.category.findMany({
+    const allCategories = await Prisma.categories.findMany({
       where: { userId },
     });
 

@@ -11,11 +11,11 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
   try {
     const { email, password, username } = req.body as TCreateUserReq;
 
-    const findUsername = await Prisma.user.findUnique({
+    const findUsername = await Prisma.users.findUnique({
       where: { username },
     });
 
-    const findEmail = await Prisma.user.findUnique({
+    const findEmail = await Prisma.users.findUnique({
       where: { email },
     });
 
@@ -29,8 +29,15 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const randomToken = randomUUID();
+
+    // send verrification email
+    if (!(await sendEmail({ email, token: randomToken })).status) {
+      return next(boom.badRequest('Email could not be sent'));
+    }
+
     // Create user and statistic
-    const { id } = await Prisma.user.create({
+    const { id } = await Prisma.users.create({
       data: {
         username,
         email,
@@ -41,12 +48,6 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
       },
       select: { id: true },
     });
-
-    const randomToken = randomUUID();
-
-    if (!(await sendEmail({ email, token: randomToken })).status) {
-      return next(boom.badRequest('Email could not be sent'));
-    }
 
     // Creates cookie for user session
     res.cookie('token', generateJWT({ id }), {
@@ -79,7 +80,7 @@ export const verifyEmailToken: TMiddlewareParams = async (req, res, next) => {
       return next(boom.badRequest('Invalid token'));
     }
 
-    await Prisma.user.update({
+    await Prisma.users.update({
       where: { id },
       data: { is_active: true },
     });
@@ -96,7 +97,7 @@ export const loginUser: TMiddlewareParams = async (req, res, next) => {
   try {
     const { username, password } = req.body as TLoginUserReq;
 
-    const findUser = await Prisma.user.findUnique({
+    const findUser = await Prisma.users.findUnique({
       where: { username },
       include: { Statistics: true },
     });
@@ -112,7 +113,7 @@ export const loginUser: TMiddlewareParams = async (req, res, next) => {
       return next(boom.badRequest('Incorrect username or password'));
 
     // update last login date
-    await Prisma.user.update({
+    await Prisma.users.update({
       where: { id: findUser.id },
       data: { last_login_at: new Date() },
     });
@@ -136,7 +137,7 @@ export const renewToken: TMiddlewareParams = async (req, res, next) => {
     const { id } = res.locals.authorized;
 
     // find user
-    const findUser = await Prisma.user.findUnique({
+    const findUser = await Prisma.users.findUnique({
       where: { id },
       include: { Statistics: true },
     });
@@ -144,7 +145,7 @@ export const renewToken: TMiddlewareParams = async (req, res, next) => {
     if (!findUser) return next(boom.badRequest('User not found'));
 
     // update last login date
-    await Prisma.user.update({
+    await Prisma.users.update({
       where: { id: findUser.id },
       data: { last_login_at: new Date() },
     });

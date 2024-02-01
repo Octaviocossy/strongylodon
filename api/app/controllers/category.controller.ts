@@ -9,7 +9,7 @@ export const getCategories: TMiddlewareParams = async (_req, res, next) => {
     const { id } = res.locals.authorized;
 
     // get all categories of the user
-    const categories = await Prisma.category.findMany({
+    const categories = await Prisma.categories.findMany({
       where: {
         userId: id,
       },
@@ -26,7 +26,7 @@ export const createCategory: TMiddlewareParams = async (req, res, next) => {
     const { id } = res.locals.authorized;
     const { title } = req.body as ICategoryReq;
 
-    await Prisma.category.create({
+    await Prisma.categories.create({
       data: {
         title,
         userId: id,
@@ -49,7 +49,7 @@ export const updateCategory: TMiddlewareParams = async (req, res, next) => {
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
     // find the category in the db
-    const findCategory = await Prisma.category.findUnique({
+    const findCategory = await Prisma.categories.findUnique({
       where: {
         id: String(id),
       },
@@ -62,7 +62,7 @@ export const updateCategory: TMiddlewareParams = async (req, res, next) => {
     }
 
     // Update category
-    await Prisma.category.update({
+    await Prisma.categories.update({
       where: {
         id: String(id),
       },
@@ -88,7 +88,7 @@ export const deleteCategory: TMiddlewareParams = async (req, res, next) => {
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
     // find the category in the db
-    const findCategory = await Prisma.category.findUnique({
+    const findCategory = await Prisma.categories.findUnique({
       where: {
         id: String(id),
       },
@@ -101,7 +101,7 @@ export const deleteCategory: TMiddlewareParams = async (req, res, next) => {
     }
 
     // delete category
-    await Prisma.category.delete({
+    await Prisma.categories.delete({
       where: {
         id: String(id),
       },
