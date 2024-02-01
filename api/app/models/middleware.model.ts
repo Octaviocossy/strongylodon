@@ -1,4 +1,4 @@
-import { Statistic, User } from '@prisma/client';
+import { Statistics, Users } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { AnyZodObject } from 'zod';
 
@@ -6,8 +6,8 @@ import { AnyZodObject } from 'zod';
 declare global {
   namespace Express {
     interface Request {
-      user?: User & {
-        Statistics: Statistic[];
+      user?: Users & {
+        Statistics: Statistics[];
       };
       message?: string;
     }

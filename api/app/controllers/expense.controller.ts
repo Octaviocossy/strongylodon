@@ -9,7 +9,7 @@ export const getExpenses: TMiddlewareParams = async (_req, res, next) => {
   try {
     const { id } = res.locals.authorized;
 
-    const expenses = await Prisma.expense.findMany({
+    const expenses = await Prisma.expenses.findMany({
       where: {
         userId: id,
       },
@@ -37,7 +37,7 @@ export const createExpense: TMiddlewareParams = async (req, res, next) => {
     }
 
     // creates expense
-    await Prisma.expense.create({
+    await Prisma.expenses.create({
       data: {
         ...expense,
         categoriesId: expense.categoriesId?.join(','),
@@ -64,7 +64,7 @@ export const updateExpense: TMiddlewareParams = async (req, res, next) => {
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
     // find the expense in the db
-    const findExpense = await Prisma.expense.findUnique({
+    const findExpense = await Prisma.expenses.findUnique({
       where: { id: String(id) },
     });
 
@@ -84,7 +84,7 @@ export const updateExpense: TMiddlewareParams = async (req, res, next) => {
     }
 
     // update expense
-    await Prisma.expense.update({
+    await Prisma.expenses.update({
       where: { id: String(id) },
       data: {
         ...expense,
@@ -109,7 +109,7 @@ export const deleteExpense: TMiddlewareParams = async (req, res, next) => {
     // validate expense id
     if (!isUUID(String(id))) return next(boom.badRequest('Invalid id'));
 
-    const findExpense = await Prisma.expense.findUnique({
+    const findExpense = await Prisma.expenses.findUnique({
       where: { id: String(id) },
     });
 
@@ -119,7 +119,7 @@ export const deleteExpense: TMiddlewareParams = async (req, res, next) => {
       return next(boom.unauthorized('Unauthorized'));
 
     // delete expense
-    await Prisma.expense.delete({ where: { id: String(id) } });
+    await Prisma.expenses.delete({ where: { id: String(id) } });
 
     req.message = 'Expense deleted';
 

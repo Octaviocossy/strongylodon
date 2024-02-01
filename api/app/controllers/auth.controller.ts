@@ -1,19 +1,21 @@
+import { randomUUID } from 'crypto';
+
 import boom from '@hapi/boom';
 import bcrypt from 'bcryptjs';
 
 import { TCreateUserReq, TLoginUserReq, TMiddlewareParams } from '../models';
 import { Prisma } from '../config';
-import { generateJWT } from '../utilities';
+import { generateJWT, parseCookiesToObject, sendEmail } from '../utilities';
 
 export const createUser: TMiddlewareParams = async (req, res, next) => {
   try {
     const { email, password, username } = req.body as TCreateUserReq;
 
-    const findUsername = await Prisma.user.findUnique({
+    const findUsername = await Prisma.users.findUnique({
       where: { username },
     });
 
-    const findEmail = await Prisma.user.findUnique({
+    const findEmail = await Prisma.users.findUnique({
       where: { email },
     });
 
@@ -27,8 +29,15 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const randomToken = randomUUID();
+
+    // send verrification email
+    if (!(await sendEmail({ email, token: randomToken })).status) {
+      return next(boom.badRequest('Email could not be sent'));
+    }
+
     // Create user and statistic
-    await Prisma.user.create({
+    const { id } = await Prisma.users.create({
       data: {
         username,
         email,
@@ -37,6 +46,20 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
           create: { initialAmount: 0, currentAmount: 0, expensedAmount: 0 },
         },
       },
+      select: { id: true },
+    });
+
+    // Creates cookie for user session
+    res.cookie('token', generateJWT({ id }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    // Create cookie for email verification
+    res.cookie(`email_token-${randomToken}`, randomToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      expires: new Date(Date.now() + (1000 * 60 * 60 * 1) / 5),
     });
 
     return res.status(201).json({ msg: 'User created successfully' });
@@ -45,11 +68,36 @@ export const createUser: TMiddlewareParams = async (req, res, next) => {
   }
 };
 
+export const verifyEmailToken: TMiddlewareParams = async (req, res, next) => {
+  try {
+    const { id } = res.locals.authorized;
+    const { token } = req.query;
+    const { cookie } = req.headers;
+
+    const parsedCookie = parseCookiesToObject(cookie as string);
+
+    if (token?.toString().trim() !== parsedCookie[`email_token-${token}`]) {
+      return next(boom.badRequest('Invalid token'));
+    }
+
+    await Prisma.users.update({
+      where: { id },
+      data: { is_active: true },
+    });
+
+    res.clearCookie(`email_token-${token}`);
+
+    return res.status(200).json({ message: 'Email verified successfully' });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const loginUser: TMiddlewareParams = async (req, res, next) => {
   try {
     const { username, password } = req.body as TLoginUserReq;
 
-    const findUser = await Prisma.user.findUnique({
+    const findUser = await Prisma.users.findUnique({
       where: { username },
       include: { Statistics: true },
     });
@@ -65,7 +113,7 @@ export const loginUser: TMiddlewareParams = async (req, res, next) => {
       return next(boom.badRequest('Incorrect username or password'));
 
     // update last login date
-    await Prisma.user.update({
+    await Prisma.users.update({
       where: { id: findUser.id },
       data: { last_login_at: new Date() },
     });
@@ -89,7 +137,7 @@ export const renewToken: TMiddlewareParams = async (req, res, next) => {
     const { id } = res.locals.authorized;
 
     // find user
-    const findUser = await Prisma.user.findUnique({
+    const findUser = await Prisma.users.findUnique({
       where: { id },
       include: { Statistics: true },
     });
@@ -97,7 +145,7 @@ export const renewToken: TMiddlewareParams = async (req, res, next) => {
     if (!findUser) return next(boom.badRequest('User not found'));
 
     // update last login date
-    await Prisma.user.update({
+    await Prisma.users.update({
       where: { id: findUser.id },
       data: { last_login_at: new Date() },
     });

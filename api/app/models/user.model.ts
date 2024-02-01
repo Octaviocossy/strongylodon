@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Users } from '@prisma/client';
 
-export type TCreateUserReq = Pick<User, 'email' | 'username' | 'password'>;
-export type TLoginUserReq = Pick<User, 'username' | 'password'>;
+export type TCreateUserReq = Pick<Users, 'email' | 'username' | 'password'>;
+export type TLoginUserReq = Pick<Users, 'username' | 'password'>;
