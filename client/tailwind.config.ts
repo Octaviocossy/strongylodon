@@ -15,6 +15,7 @@ const config = {
     extend: {
       colors: {
         border: 'hsl(var(--border))',
+        'strongylodon-green': '#22C55E',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
