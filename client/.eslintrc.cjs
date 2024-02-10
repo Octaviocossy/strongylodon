@@ -1,5 +1,4 @@
 const { resolve } = require('node:path');
-const { off } = require('node:process');
 
 const project = resolve(__dirname, 'tsconfig.json');
 
