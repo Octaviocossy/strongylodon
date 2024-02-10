@@ -1,1 +1,3 @@
-export { default as useToast } from './useToast.hook';
+export * from './useTheme.hook';
+
+export * from './useToast.hook';

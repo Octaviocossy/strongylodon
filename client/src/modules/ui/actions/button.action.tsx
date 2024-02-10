@@ -12,7 +12,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        'green-hover': 'bg-primary text-primary-foreground hover:bg-strongylodon-green',
+        green: 'bg-green-300/30 text-green-700 hover:bg-green-300/40 dark:bg-green-700/30 dark:text-green-300 hover:dark:bg-green-700/40',
+        red: 'bg-red-300/30 text-red-700 hover:bg-red-300/40 dark:bg-red-700/30 dark:text-red-300 hover:dark:bg-red-700/40',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',

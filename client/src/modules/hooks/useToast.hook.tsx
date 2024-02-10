@@ -11,7 +11,7 @@ interface ToastProps {
   icon?: string;
 }
 
-const useToast = () => {
+export const useToast = () => {
   return {
     toast: ({ message, type, icon, position = EToastPosition.TopRight }: ToastProps) => {
       toast[type](message, {
@@ -22,5 +22,3 @@ const useToast = () => {
     },
   };
 };
-
-export default useToast;

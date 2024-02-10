@@ -1,7 +1,5 @@
-export default function Page() {
-  return (
-    <div>
-      <p>Testing</p>
-    </div>
-  );
-}
+const page: React.FC = () => {
+  return <div>Landing Page</div>;
+};
+
+export default page;
