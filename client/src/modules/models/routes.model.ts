@@ -1,7 +1,5 @@
 export enum EPublicRoutes {
   SIGNIN = '/auth/signin',
-  SIGNUP = '/auth/signup',
-  SECURE = '/secure',
 }
 
 export enum ESecureRoutes {

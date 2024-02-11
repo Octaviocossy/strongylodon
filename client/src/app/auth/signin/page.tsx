@@ -17,7 +17,7 @@ interface FormInput {
   password: string;
 }
 
-function SignIn() {
+export default function SignIn() {
   const [theme, setTheme] = useState<'dark' | 'light' | undefined>(undefined);
 
   const { register, handleSubmit, formState } = useForm<FormInput>({ resolver: zodResolver(SIGNIN_SCHEMA) });
@@ -77,5 +77,3 @@ function SignIn() {
     </Center>
   );
 }
-
-export default SignIn;

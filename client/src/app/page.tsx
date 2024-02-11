@@ -1,5 +1,3 @@
-const page: React.FC = () => {
+export default function LandingPage() {
   return <div>Landing Page</div>;
-};
-
-export default page;
+}
