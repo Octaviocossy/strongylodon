@@ -24,7 +24,7 @@ export const RegisterUser = z.object({
 
 export const LoginUser = z.object({
   body: z.object({
-    username: properties.username,
+    email: properties.email,
     password: properties.password,
   }),
 });

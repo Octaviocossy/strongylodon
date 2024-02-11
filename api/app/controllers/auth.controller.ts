@@ -95,22 +95,21 @@ export const verifyEmailToken: TMiddlewareParams = async (req, res, next) => {
 
 export const loginUser: TMiddlewareParams = async (req, res, next) => {
   try {
-    const { username, password } = req.body as TLoginUserReq;
+    const { email, password } = req.body as TLoginUserReq;
 
     const findUser = await Prisma.users.findUnique({
-      where: { username },
+      where: { email },
       include: { Statistics: true },
     });
 
     // check if user exists
-    if (!findUser)
-      return next(boom.badRequest('Incorrect username or password'));
+    if (!findUser) return next(boom.badRequest('Incorrect email or password'));
 
     // check if password is correct
     const passwordCompare = await bcrypt.compare(password, findUser.password);
 
     if (!passwordCompare)
-      return next(boom.badRequest('Incorrect username or password'));
+      return next(boom.badRequest('Incorrect email or password'));
 
     // update last login date
     await Prisma.users.update({
