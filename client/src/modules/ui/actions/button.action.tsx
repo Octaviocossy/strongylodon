@@ -46,7 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, va
     <Comp ref={ref} className={cn(buttonVariants({ variant, size, className }))} {...props}>
       {isLoading ? (
         <div className="flex justify-center">
-          <Spinner color="text-white" styles="h-[1.3rem], w-[1.3rem]" />
+          <Spinner className="h-[1.3rem], w-[1.3rem]" variant={variant} />
         </div>
       ) : (
         props.children

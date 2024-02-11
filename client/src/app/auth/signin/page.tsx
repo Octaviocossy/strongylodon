@@ -4,11 +4,12 @@ import type { SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-// import * as Icons from 'lucide-react';
+import * as Icons from 'lucide-react';
 
-import { Button, Center, GoogleIcon, Input } from '@/ui';
+import { Button, Center, Error, GoogleIcon, Input } from '@/ui';
 import { cn, handleErrorInput } from '@/utilities';
 import * as Models from '@/models';
+import { useAuth, useAuthSelector } from '@/redux';
 
 import { SIGNIN_SCHEMA } from './_zod';
 
@@ -24,12 +25,10 @@ export default function SignIn() {
 
   const { errors } = formState;
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const { onSignIn } = useAuth();
+  const { isLoading, error } = useAuthSelector();
 
-    return null;
-  };
+  const onSubmit: SubmitHandler<FormInput> = (data) => onSignIn(data);
 
   useEffect(() => {
     typeof window !== 'undefined' && setTheme(localStorage.getItem('theme') as 'dark' | 'light');
@@ -40,7 +39,7 @@ export default function SignIn() {
       <div className="space-y-6">
         <h1 className="text-4xl font-semibold text-blackprimary">Sign in</h1>
         <p className="text-gray-500 font-semibold">Sign in to see your monthly expenses! 💸</p>
-        {/* {error ? <Error message={error.message} className="text-red-700/80 dark:text-red-300" icon={Icons.AlertTriangle} /> : null} */}
+        {error ? <Error className="text-red-700/80 dark:text-red-300" icon={Icons.AlertTriangle} message={error.message} /> : null}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <Input
@@ -60,7 +59,7 @@ export default function SignIn() {
             register={{ ...register(Models.EFields.PASSWORD) }}
             type="password"
           />
-          <Button className="font-semibold" size="lg" type="submit" variant="green">
+          <Button className="font-semibold" isLoading={isLoading} size="lg" type="submit" variant="green">
             Sign In
           </Button>
         </form>
