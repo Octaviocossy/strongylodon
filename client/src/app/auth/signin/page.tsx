@@ -1,15 +1,16 @@
 'use client';
+
 import type { SubmitHandler } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
 import * as Icons from 'lucide-react';
 
 import { Button, Center, Error, GoogleIcon, Input } from '@/ui';
 import { cn, handleErrorInput } from '@/utilities';
-import * as Models from '@/models';
 import { useAuth, useAuthSelector } from '@/redux';
+import { useTheme } from '@/hooks';
+import * as Models from '@/models';
 
 import { SIGNIN_SCHEMA } from './_zod';
 
@@ -19,7 +20,7 @@ interface FormInput {
 }
 
 export default function SignIn() {
-  const [theme, setTheme] = useState<'dark' | 'light' | undefined>(undefined);
+  const { theme } = useTheme();
 
   const { register, handleSubmit, formState } = useForm<FormInput>({ resolver: zodResolver(SIGNIN_SCHEMA) });
 
@@ -29,10 +30,6 @@ export default function SignIn() {
   const { isLoading, error } = useAuthSelector();
 
   const onSubmit: SubmitHandler<FormInput> = (data) => onSignIn(data);
-
-  useEffect(() => {
-    typeof window !== 'undefined' && setTheme(localStorage.getItem('theme') as 'dark' | 'light');
-  }, []);
 
   return (
     <Center>
