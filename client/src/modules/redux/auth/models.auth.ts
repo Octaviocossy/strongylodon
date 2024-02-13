@@ -5,5 +5,6 @@ export interface AuthStore {
   isLoading: boolean;
   ok: boolean | null;
   isAuthenticated: boolean;
-  error: BoomError | null;
+  boom_error: BoomError | null;
+  generic_error: string | null;
 }

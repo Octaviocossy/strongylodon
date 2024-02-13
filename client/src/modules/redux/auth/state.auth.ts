@@ -8,7 +8,8 @@ const UserEmptyState: AuthStore = {
   ok: null,
   isLoading: false,
   isAuthenticated: false,
-  error: null,
+  boom_error: null,
+  generic_error: null,
 };
 
 export const authState = createSlice({
@@ -24,10 +25,13 @@ export const authState = createSlice({
       };
     },
     _handleStartAuth: (state) => {
-      return { ...state, isLoading: true, error: null, ok: null };
+      return { ...state, isLoading: true, boom_error: null, ok: null, generic_error: null };
     },
     _handleError: (state, action) => {
-      return { ...state, isLoading: false, error: action.payload as BoomError | null };
+      return { ...state, isLoading: false, boom_error: action.payload as BoomError | null };
+    },
+    _handleGenericError: (state, action) => {
+      return { ...state, isLoading: false, generic_error: action.payload as string | null };
     },
     _handleOk: (state, action) => {
       return { ...state, ok: action.payload as boolean };
@@ -35,4 +39,4 @@ export const authState = createSlice({
   },
 });
 
-export const { _handleUserData, _handleError, _handleStartAuth, _handleOk } = authState.actions;
+export const { _handleUserData, _handleError, _handleStartAuth, _handleOk, _handleGenericError } = authState.actions;

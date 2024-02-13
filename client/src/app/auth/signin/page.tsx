@@ -5,11 +5,12 @@ import type { SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as Icons from 'lucide-react';
+import { useEffect } from 'react';
 
 import { Button, Center, Error, GoogleIcon, Input } from '@/ui';
 import { cn, handleErrorInput } from '@/utilities';
 import { useAuth, useAuthSelector } from '@/redux';
-import { useTheme } from '@/hooks';
+import { useTheme, useToast } from '@/hooks';
 import * as Models from '@/models';
 
 import { SIGNIN_SCHEMA } from './_zod';
@@ -22,21 +23,29 @@ interface FormInput {
 export default function SignIn() {
   const { theme } = useTheme();
 
+  const { toast } = useToast();
+
   const { register, handleSubmit, formState } = useForm<FormInput>({ resolver: zodResolver(SIGNIN_SCHEMA) });
 
   const { errors } = formState;
 
   const { onSignIn } = useAuth();
-  const { isLoading, error } = useAuthSelector();
+  const { isLoading, boom_error, generic_error } = useAuthSelector();
 
   const onSubmit: SubmitHandler<FormInput> = (data) => onSignIn(data);
+
+  useEffect(() => {
+    generic_error && toast({ message: generic_error, type: Models.EToastType.ERROR, position: Models.EToastPosition.BottomRight });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generic_error]);
 
   return (
     <Center>
       <div className="space-y-6">
         <h1 className="text-4xl font-semibold text-blackprimary">Sign in</h1>
         <p className="text-gray-500 font-semibold">Sign in to see your monthly expenses! 💸</p>
-        {error ? <Error className="text-red-700/80 dark:text-red-300" icon={Icons.AlertTriangle} message={error.message} /> : null}
+        {boom_error ? <Error className="text-red-700/80 dark:text-red-300" icon={Icons.AlertTriangle} message={boom_error.message} /> : null}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <Input

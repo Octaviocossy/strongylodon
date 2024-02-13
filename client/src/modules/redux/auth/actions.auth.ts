@@ -2,7 +2,7 @@ import type { TUserSignin, User } from '@/models';
 
 import { useDispatch } from 'react-redux';
 
-import { parseError } from '@/utilities';
+import { boomValidator, parseError } from '@/utilities';
 import * as Redux from '@/redux';
 import { EResult } from '@/models';
 import { api } from '@/services';
@@ -15,7 +15,11 @@ export const useAuth = () => {
 
     const { type, value } = await api.post<TUserSignin, User>('/auth/login', data);
 
-    if (type === EResult.ERROR) return dispatch(Redux._handleError(parseError(value)));
+    if (type === EResult.ERROR) {
+      Boolean(boomValidator(value))
+        ? dispatch(Redux._handleError(parseError(value)))
+        : dispatch(Redux._handleGenericError('Something went wrong. \n Please try again.'));
+    }
 
     dispatch(Redux._handleUserData(value));
   };

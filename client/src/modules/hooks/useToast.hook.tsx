@@ -18,6 +18,7 @@ export const useToast = () => {
         position: position,
         duration: 5000,
         icon: icon && icon,
+        className: 'font-semibold text-sm',
       });
     },
   };
